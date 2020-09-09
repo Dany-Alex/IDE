@@ -1,0 +1,10 @@
+C:\Users\Danny\source\repos\IDE\IDE\IDE\bin\Debug\IDE.exe.config
+C:\Users\Danny\source\repos\IDE\IDE\IDE\bin\Debug\IDE.exe
+C:\Users\Danny\source\repos\IDE\IDE\IDE\bin\Debug\IDE.pdb
+C:\Users\Danny\source\repos\IDE\IDE\IDE\obj\Debug\IDE.csprojAssemblyReference.cache
+C:\Users\Danny\source\repos\IDE\IDE\IDE\obj\Debug\IDE.Properties.Resources.resources
+C:\Users\Danny\source\repos\IDE\IDE\IDE\obj\Debug\IDE.csproj.GenerateResource.cache
+C:\Users\Danny\source\repos\IDE\IDE\IDE\obj\Debug\IDE.csproj.CoreCompileInputs.cache
+C:\Users\Danny\source\repos\IDE\IDE\IDE\obj\Debug\IDE.exe
+C:\Users\Danny\source\repos\IDE\IDE\IDE\obj\Debug\IDE.pdb
+C:\Users\Danny\source\repos\IDE\IDE\IDE\obj\Debug\IDE.IDE.resources
