@@ -16,6 +16,10 @@ namespace IDE
         }
         public void listaTokens()
         {
+            TipoToken operador1 = new TipoToken("(-)+", "", -0, -0, -0, 20, "operador", "resta", "", Color.DarkBlue);
+            tokenItem.Add(operador1);
+            TipoToken cadena = new TipoToken(@"[a-z|A-Z]+", "", -0, -0, -0, 14, "posicionador", "final de linea", "", Color.Gray);
+            tokenItem.Add(cadena);
             TipoToken palabraReservada = new TipoToken("si", "", -0, -0, -0, 0, "palabra Reservada", "inicio de un comentario de mas de una linea", "", Color.Green);
             tokenItem.Add(palabraReservada);
             TipoToken palabraReservada1 = new TipoToken("sino", "", -0, -0, -0, 1, "palabra Reservada", "inicio de un comentario de mas de una linea", "",Color.Green);
@@ -45,21 +49,19 @@ namespace IDE
             TipoToken posicionador = new TipoToken(";", "", -0, -0, -0, 13, "posicionador", "final de linea", "", Color.Pink);
             tokenItem.Add(posicionador);
 
-            TipoToken numero = new TipoToken(@"([0-9])+([0-9])*", "", -0, -0, -0, 14, "posicionador", "final de linea", "", Color.Purple);
+            TipoToken numero = new TipoToken(@"(-*)+([0-9])+([0-9])*", "", -0, -0, -0, 14, "posicionador", "final de linea", "", Color.Purple);
             tokenItem.Add(numero);
-            TipoToken numeroDecimal = new TipoToken(@"(-*)+(\d*(\.)+\d*)", "", -0, -0, -0, 14, "posicionador", "final de linea", "", Color.Cyan);
+            TipoToken numeroDecimal = new TipoToken(@"(-*)+(\d*(\.)+\d*)", "", -0, -0, -0, 15, "posicionador", "final de linea", "", Color.Cyan);
             tokenItem.Add(numeroDecimal);
-           // TipoToken cadena = new TipoToken(@"[a-z|A-Z]+", "", -0, -0, -0, 14, "posicionador", "final de linea", "", Color.Gray);
-            //tokenItem.Add(cadena);
-            TipoToken booleno = new TipoToken(@"true", "", -0, -0, -0, 14, "posicionador", "final de linea", "", Color.Brown);
+
+            TipoToken booleno = new TipoToken(@"true", "", -0, -0, -0, 16, "posicionador", "final de linea", "", Color.Brown);
             tokenItem.Add(booleno);
-            TipoToken booleno1 = new TipoToken(@"false", "", -0, -0, -0, 14, "posicionador", "final de linea", "", Color.Brown);
+            TipoToken booleno1 = new TipoToken(@"false", "", -0, -0, -0, 17, "posicionador", "final de linea", "", Color.Brown);
             tokenItem.Add(booleno1);
 
             //TipoToken operador = new TipoToken("+", "", -0, -0, -0, 18, "operador", "suma", "", Color.DarkBlue);
             //tokenItem.Add(operador);
-            TipoToken operador1 = new TipoToken("-", "", -0, -0, -0, 20, "operador", "resta", "", Color.DarkBlue);
-            tokenItem.Add(operador1);
+            
            // TipoToken operador2 = new TipoToken("*", "", -0, -0, -0, 21, "operador", "multiplicacion", "", Color.DarkBlue);
           //  tokenItem.Add(operador2);
             TipoToken operador3 = new TipoToken("/", "", -0, -0, -0, 22, "operador", "division", "", Color.DarkBlue);
