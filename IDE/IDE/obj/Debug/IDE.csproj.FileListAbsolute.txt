@@ -8,3 +8,4 @@ C:\Users\Danny\source\repos\IDE\IDE\IDE\obj\Debug\IDE.csproj.CoreCompileInputs.c
 C:\Users\Danny\source\repos\IDE\IDE\IDE\obj\Debug\IDE.exe
 C:\Users\Danny\source\repos\IDE\IDE\IDE\obj\Debug\IDE.pdb
 C:\Users\Danny\source\repos\IDE\IDE\IDE\obj\Debug\IDE.IDE.resources
+C:\Users\Danny\source\repos\IDE\IDE\IDE\obj\Debug\IDE.Inicio.resources

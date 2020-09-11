@@ -1,0 +1,21 @@
+int = 9;
+-10.5
+10.5
+-9
+& ||
+> < >=
+<=
+==
+!=
+true
+false
+mientras(hacer){
+sino_si
+   si( desde=1; hasta=10; incremento=1){
+   string="hola";
+   }sino{
+    //comentario
+   }
+
+}
+

@@ -16,7 +16,7 @@ namespace IDE
         {
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
-            Application.Run(new IDE());
+            Application.Run(new Inicio());
         }
     }
 }
