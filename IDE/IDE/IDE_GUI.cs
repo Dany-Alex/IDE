@@ -13,9 +13,10 @@ namespace IDE
 {
     public partial class IDE : Form
     {
+        int cantLineas = 0;
         ManejadorArchivos manejador = new ManejadorArchivos();
-        Token token = new Token();
-
+        ListaToken token = new ListaToken();
+        
         public IDE()
         {
             InitializeComponent();
@@ -92,19 +93,19 @@ namespace IDE
 
         private void limpiarCodigoBoton_Click(object sender, EventArgs e)
         {
-            token.listaTokens();
+            Analizador analizador = new Analizador();
+            analizador.analizar(entradaRichTextBox, dataGridView1);
 
-            string token1 = @"(si|(sino)|(sino_si)|mientras|hacer|desde|hasta|incremento)";
+            //   token.iniciarListaToken();
+            //  entradaRichTextBox.Select(entradaRichTextBox.TextLength, 0);
 
-            //selectRichText(entradaRichTextBox, token1, Color.Green);
+            /*     foreach (var token in token.Tokens) {
+                      selectRichText(entradaRichTextBox, token.Simbolo, token.Color);
+                  }
+
+                dataGridView1.DataSource = token.Tokens;*/
 
 
-            entradaRichTextBox.Select(entradaRichTextBox.TextLength, 0);
-
-              foreach (var token in token.Tokens) {
-                  selectRichText(entradaRichTextBox, token.Simbolo, token.Color);
-              }
-            dataGridView1.DataSource = token.Tokens;
         }
     }
 }
