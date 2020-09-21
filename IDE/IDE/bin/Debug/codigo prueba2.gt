@@ -1,0 +1,33 @@
+int = 9;
+-10.5
+10.5
+-9
+&& ||
+> < >=
+<=
+==
+== 0
+!=
+true
+false
+MIENTRAS(HACER){
+SINO_SI SI
+   SI( DESDE = 1; HASTA = 10; INCREMENTO = 1){
+   string="hola";
+   }SINO{
+    //comentario
+   }
+++
+--
+-
++
+SI SINO 
+HASTA 
+DESDE
+HOY 
+SI
+}
+
+
+
+

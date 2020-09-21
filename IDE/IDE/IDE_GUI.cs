@@ -13,7 +13,7 @@ namespace IDE
 {
     public partial class IDE : Form
     {
-        int cantLineas = 0;
+
         ManejadorArchivos manejador = new ManejadorArchivos();
         ListaToken token = new ListaToken();
         
@@ -31,42 +31,37 @@ namespace IDE
         private void guardarToolStripMenuItem_Click(object sender, EventArgs e)
         {
 
-            manejador.guardar(saveFileDialog1, entradaRichTextBox.Text);
-            entradaRichTextBox.Text = "";
+            manejador.guardarComo(saveFileDialog1, entradaRichTextBox.Text);
+            
+            this.Text = string.Format("IDE - {0} - ", manejador.getFileName());
+            richCambiado = false;
         }
 
         private void cargarToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            manejador.cargar(openFileDialog1, entradaRichTextBox);
+            manejador.cargar(openFileDialog1, entradaRichTextBox);          
+            this.Text = string.Format("IDE - {0} - ", manejador.getFileName());
+            richCambiado = false;
+
         }
 
+
+        bool richCambiado = false;
         private void entradaRichTextBox_TextChanged(object sender, EventArgs e)
         {
+            richCambiado = true;
 
+        this.Text = string.Format("IDE - {0} *- ", manejador.getFileName());
+            getLineaColumna();
 
         }
-       
-        
-       
-        private void selectRichText(RichTextBox entradaRichTextBox, string token,Color color){
-            Regex rex = new Regex(token);
 
-            MatchCollection mc = rex.Matches(entradaRichTextBox.Text);
-
-            int StartCursorPosition = entradaRichTextBox.SelectionStart;
-
-            foreach (Match m in mc)
-            {
-                int startIndex = m.Index;
-                int StopIndex = m.Length;
-                entradaRichTextBox.Select(startIndex, StopIndex);
-                entradaRichTextBox.SelectionColor = color;
-                entradaRichTextBox.SelectionStart = StartCursorPosition;
-                entradaRichTextBox.SelectionColor = Color.Black;
-
-            }
+        public void getLineaColumna() {
+            int linea = entradaRichTextBox.GetLineFromCharIndex(entradaRichTextBox.SelectionStart) + 1;
+            int columna = entradaRichTextBox.SelectionStart - entradaRichTextBox.GetFirstCharIndexOfCurrentLine();
+            getLineaLabel.Text = linea.ToString();
+            getColumnaLabel.Text = columna.ToString();
         }
-
         private void IDE_Load(object sender, EventArgs e)
         {
 
@@ -79,31 +74,123 @@ namespace IDE
 
         private void IDE_FormClosing(object sender, FormClosingEventArgs e)
         {
-            Application.Exit();
-            /*  if (MessageBox.Show("¿Quieres guardar cambios en tu texto?", "IDE",
-                               MessageBoxButtons.YesNo) == DialogResult.No)
-               {
 
-                          e.Cancel = true;
-                      manejador.guardar(saveFileDialog1, entradaRichTextBox.Text);
-                      entradaRichTextBox.Text = "";
-               }
-              */
+            if (richCambiado == true) {
+                if (MessageBox.Show("¿Quieres guardar los cambios realizados en tu codigo antes de salir?", "IDE", MessageBoxButtons.YesNo) == DialogResult.No)
+                {
+
+                    if (manejador.getFileName() == null)
+                    {
+
+                        manejador.guardarComo(saveFileDialog1, entradaRichTextBox.Text);
+                        richCambiado = false;
+                        this.Text = string.Format("IDE - {0} - ", manejador.getFileName());
+                    }
+                    else
+                    {
+                        richCambiado = false;
+                        manejador.guardar(manejador.getFileName(), entradaRichTextBox.Text);
+                        this.Text = string.Format("IDE - {0} - ", manejador.getFileName());
+                    }
+
+
+                }
+                else
+                {
+                    Application.Exit();
+                }
+            }
+            Application.Exit();
+
+
         }
 
+        Analizador analizador = new Analizador();
         private void limpiarCodigoBoton_Click(object sender, EventArgs e)
         {
-            Analizador analizador = new Analizador();
-            analizador.analizar(entradaRichTextBox, dataGridView1);
 
-            //   token.iniciarListaToken();
-            //  entradaRichTextBox.Select(entradaRichTextBox.TextLength, 0);
 
-            /*     foreach (var token in token.Tokens) {
-                      selectRichText(entradaRichTextBox, token.Simbolo, token.Color);
-                  }
+            dataGridView1.DataSource = null;
+            dataGridView2.DataSource = null;
 
-                dataGridView1.DataSource = token.Tokens;*/
+
+            analizador.analizar(entradaRichTextBox, dataGridView1,dataGridView2);
+
+            String direccionArchivo;
+            direccionArchivo = manejador.getFileName();
+
+ 
+                this.Text = string.Format("IDE - {0} - {1} tokens {2} errores", direccionArchivo, analizador.getNumeroToken(), analizador.getNumeroErrores()); 
+            
+            
+
+         }
+
+        private void button1_Click_1(object sender, EventArgs e)
+        {
+            richCambiado = false;
+            manejador.guardar(manejador.getFileName(), entradaRichTextBox.Text);
+            this.Text = string.Format("IDE - {0} - ", manejador.getFileName());
+        }
+
+        private void nuevoToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+
+            if (richCambiado == true)
+            {
+                if (MessageBox.Show("¿Quieres guardar los cambios realizados en tu codigo antes de crear un nuevo documento?", "IDE", MessageBoxButtons.YesNo) == DialogResult.Yes)
+                {
+                    this.Text = string.Format("IDE - {0} - ", manejador.getFileName());
+                    manejador.guardarComo(saveFileDialog1, entradaRichTextBox.Text);
+                        richCambiado = false;
+
+                }
+                else
+                {
+                    manejador.setFileName(null);
+                    entradaRichTextBox.Text = "";
+                    this.Text = string.Format("IDE - {0} - ", manejador.getFileName());
+                    richCambiado = false;
+                    dataGridView1.DataSource = null;
+                    dataGridView2.DataSource = null;
+
+
+
+                }
+            }
+            manejador.setFileName(null);
+            entradaRichTextBox.Text = "";
+            this.Text = string.Format("IDE - {0} - ", manejador.getFileName());
+            richCambiado = false;
+            dataGridView1.DataSource = null;
+            dataGridView2.DataSource = null;
+        }
+
+        private void entradaRichTextBox_Click(object sender, EventArgs e)
+        {
+            getLineaColumna();
+
+        }
+
+        private void exportarErrorBoton_Click(object sender, EventArgs e)
+        {
+            int counter = 0;
+            string datos = "";
+
+            for (int i = 0; i < dataGridView2.Rows.Count - 1; i++)
+            {
+                datos += "-> ERROR # " + counter + ": \n\t";
+                counter++;
+                for (int j = 0; j < dataGridView2.Columns.Count; j++)
+                {
+                    datos += dataGridView2.Rows[i].Cells[j].Value.ToString();
+                    if (j < dataGridView2.Columns.Count - 1)
+                        datos += ",\t";
+                }
+                datos += "\n";
+            }
+
+            manejador.guardarErrorComo(saveFileDialog1, datos);
 
 
         }

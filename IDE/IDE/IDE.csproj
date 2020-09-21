@@ -47,19 +47,12 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Backend\Analizador.cs" />
-    <Compile Include="Backend\Automata.cs" />
     <Compile Include="Backend\Estado.cs" />
     <Compile Include="IDE_GUI.cs">
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="IDE_GUI.Designer.cs">
       <DependentUpon>IDE_GUI.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Inicio.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="Inicio.Designer.cs">
-      <DependentUpon>Inicio.cs</DependentUpon>
     </Compile>
     <Compile Include="Backend\ManejadorArchivos.cs" />
     <Compile Include="Program.cs" />
@@ -68,9 +61,6 @@
     <Compile Include="Backend\ListaToken.cs" />
     <EmbeddedResource Include="IDE_GUI.resx">
       <DependentUpon>IDE_GUI.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Inicio.resx">
-      <DependentUpon>Inicio.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
@@ -81,6 +71,7 @@
       <AutoGen>True</AutoGen>
       <DependentUpon>Resources.resx</DependentUpon>
     </Compile>
+    <None Include="ClassDiagram1.cd" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>

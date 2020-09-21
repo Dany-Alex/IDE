@@ -2,7 +2,7 @@ int = 9;
 -10.5
 10.5
 -9
-& ||
+&& ||
 > < >=
 <=
 ==
@@ -10,12 +10,20 @@ int = 9;
 true
 false
 mientras(hacer){
-sino_si
+sino_si si
    si( desde=1; hasta=10; incremento=1){
    string="hola";
    }sino{
     //comentario
    }
-
+++
+--
+-
++
+/* dfgh */
 }
+
+
+
+
 

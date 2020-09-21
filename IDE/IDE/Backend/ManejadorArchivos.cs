@@ -14,27 +14,75 @@ namespace IDE
             
         }
 
-        public void guardar(SaveFileDialog saveFileDialog, String texto) {
-            propiedadesSaveFileDiaog(saveFileDialog);
+        public void guardar(string direccionArchivo, String texto) {
             try {
-                if (saveFileDialog.ShowDialog() == DialogResult.OK){
-                    if (File.Exists(saveFileDialog.FileName)) {
+       
+                    escribir(texto, direccionArchivo);
 
-                        String nombreArchivo = saveFileDialog.FileName;
-                        escribir(texto, nombreArchivo);
-                       
-                    }
-                    else{
-                        String nombreArchivo = saveFileDialog.FileName;
-                        escribir(texto, nombreArchivo);
-                       
-                    }
-                }
+                
             } catch(Exception) {
                 MessageBox.Show("Error al Guardar");
             }
         }
 
+        public void guardarComo(SaveFileDialog saveFileDialog, String texto)
+        {
+            propiedadesSaveFileDiaog(saveFileDialog);
+            try
+            {
+                if (saveFileDialog.ShowDialog() == DialogResult.OK)
+                {
+                    if (File.Exists(saveFileDialog.FileName))
+                    {
+
+                        String nombreArchivo = saveFileDialog.FileName;
+                        escribir(texto, nombreArchivo);
+                        setFileName(saveFileDialog.FileName);
+                    }
+                    else
+                    {
+                        String nombreArchivo = saveFileDialog.FileName;
+                        escribir(texto, nombreArchivo);
+                        setFileName(saveFileDialog.FileName);
+                    }
+                }
+            }
+            catch (Exception)
+            {
+                MessageBox.Show("Error al Guardar");
+            }
+        }
+
+        public void guardarErrorComo(SaveFileDialog saveFileDialog, String texto)
+        {
+            propiedadesSaveFileDiaogError(saveFileDialog);
+            try
+            {
+                if (saveFileDialog.ShowDialog() == DialogResult.OK)
+                {
+                    if (File.Exists(saveFileDialog.FileName))
+                    {
+
+                        String nombreArchivo = saveFileDialog.FileName;
+                        escribir(texto, nombreArchivo);
+                        setFileName(saveFileDialog.FileName);
+                    }
+                    else
+                    {
+                        String nombreArchivo = saveFileDialog.FileName;
+                        escribir(texto, nombreArchivo);
+                        setFileName(saveFileDialog.FileName);
+                    }
+                }
+            }
+            catch (Exception)
+            {
+                MessageBox.Show("Error al Guardar");
+            }
+        }
+
+
+        string direccionArchivo = null;
         public void cargar(OpenFileDialog openFileDialog, RichTextBox entradaRichTextBox) {
             propiedadesOpenFileDialog(openFileDialog);
             try
@@ -44,6 +92,7 @@ namespace IDE
 
                         String nombreArchivo = openFileDialog.FileName;
                         leer(entradaRichTextBox,nombreArchivo);
+                        setFileName( openFileDialog.FileName);
                         MessageBox.Show("Archivo: "+nombreArchivo+" cargado exitosamente");
                     }
                     else{
@@ -56,6 +105,11 @@ namespace IDE
                 MessageBox.Show("Error al Cargar");
             }
         }
+
+        public void setFileName(string direccionArchivo) { this.direccionArchivo = direccionArchivo; }
+
+        public string getFileName() { return this.direccionArchivo; }
+
         private void escribir(String texto, String nombreArchivo) {
             TextWriter archivo = new StreamWriter(nombreArchivo);
             archivo.WriteLine(texto);
@@ -77,7 +131,15 @@ namespace IDE
             saveFileDialog.DefaultExt = "gt";
             saveFileDialog.AddExtension = true;
         }
-         private void propiedadesOpenFileDialog(OpenFileDialog openFileDialog) {
+
+        private void propiedadesSaveFileDiaogError(SaveFileDialog saveFileDialog)
+        {
+            saveFileDialog.Filter = "Code File (.gtE)|*.gtE";
+            saveFileDialog.DefaultExt = "gtE";
+            saveFileDialog.AddExtension = true;
+        }
+
+        private void propiedadesOpenFileDialog(OpenFileDialog openFileDialog) {
             openFileDialog.Title=("Busca tu archivo .gt");
             openFileDialog.Filter = "Code File (.gt)|*.gt";
             openFileDialog.DefaultExt = "gt";

@@ -1,0 +1,16 @@
+-> ERROR # 0: 
+	123,	&,	5,	No se pueden colocar tres singos seguidos,	,	Color [Yellow]
+-> ERROR # 1: 
+	123,	& ,	5,	Se esperaba otro &,	,	Color [Yellow]
+-> ERROR # 2: 
+	123,	|,	5,	No se pueden colocar tres singos seguidos,	,	Color [Yellow]
+-> ERROR # 3: 
+	123,	|
+,	6,	Se esperaba otro |,	,	Color [Yellow]
+-> ERROR # 4: 
+	123,	=,	8,	No se pueden colocar mas de dos iguales seguidos,	,	Color [Yellow]
+-> ERROR # 5: 
+	123,	/,	17,	Se cierre de cometario ,	,	Color [Yellow]
+-> ERROR # 6: 
+	123,	-,	20,	No se pueden colocar mas de dos guiones seguidos,	,	Color [Yellow]
+

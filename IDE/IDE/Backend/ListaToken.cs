@@ -9,18 +9,15 @@ namespace IDE
 {
     class ListaToken
     {
-        private List<Token> listaTokenItem = new List<Token>();
+
         private List<Token> listaTokenResultado = new List<Token>();
-        public void inicializarLista()
+        private List<Token> listaTokenErrores= new List<Token>();
+        public void limpiarLista()
         {
-            Token tonen1 = new Token(1, "si", -0, "Palabra reservada", "Prueba", Color.Red);
-            listaTokenItem.Add(tonen1);
+            listaTokenResultado.Clear();
+            listaTokenErrores.Clear();
         }
 
-        public List<Token> getListaToken()
-        {
-            return listaTokenItem;
-        }
         public void agregarListaTokenResultado(Token nuevo)
         {
             listaTokenResultado.Add(nuevo);
@@ -30,6 +27,15 @@ namespace IDE
         {
             return listaTokenResultado;
         }
-        internal List<Token> TokenItem { get => listaTokenItem; set => listaTokenItem = value; }
+
+        public void agregarListaTokenErrores(Token nuevo)
+        {
+            listaTokenErrores.Add(nuevo);
+        }
+
+        public List<Token> getListaTokenErrores()
+        {
+            return listaTokenErrores;
+        }
     }
 }
