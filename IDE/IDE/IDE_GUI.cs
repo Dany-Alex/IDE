@@ -21,6 +21,16 @@ namespace IDE
         {
             InitializeComponent();
 
+            dataGridView1.DataSource = null;
+            dataGridView2.DataSource = null;
+
+            analizador.analizar(entradaRichTextBox, dataGridView1, dataGridView2);
+
+            String direccionArchivo;
+            direccionArchivo = manejador.getFileName();
+
+
+            this.Text = string.Format("IDE - {0} - {1} tokens {2} errores", direccionArchivo, analizador.getNumeroToken(), analizador.getNumeroErrores());
         }
 
         private void button1_Click(object sender, EventArgs e)
@@ -108,11 +118,8 @@ namespace IDE
         Analizador analizador = new Analizador();
         private void limpiarCodigoBoton_Click(object sender, EventArgs e)
         {
-
-
             dataGridView1.DataSource = null;
             dataGridView2.DataSource = null;
-
 
             analizador.analizar(entradaRichTextBox, dataGridView1,dataGridView2);
 

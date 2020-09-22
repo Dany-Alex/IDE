@@ -6,24 +6,29 @@ boolen prueba1 = true;
 boolen prueba2 = false;
 
 MIENTRAS(HACER){
-SI( prueba1 != true&& prueba2 = false && numero < 9){ 
+SI( prueba1 != true&& prueba2 = false&& numero < 9 ){ 
 
    SI( DESDE= 1; HASTA>= 10; INCREMENTO++){
-   string= "hola";
+   string ="hola";
    }SINO{
     //comentario
    }
 
 
-}SINO_SI( prueba1 = true|| prueba2 ==false|| numero > 9){
+}SINO_SI( prueba1 = true|| prueba2 == false|| numero > 9 ){
 
    SI( DESDE= 1; HASTA<= 10; INCREMENTO--){
-   string="hola";
+   string ="hola";
    }SINO{
     //comentario
    }
-
+char caracter = 'a' ;
 int tmp= ((prueba1 + prueba) - 1) / 2;
 }
 }
+
+
+
+
+
 

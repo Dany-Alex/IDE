@@ -21,6 +21,7 @@ namespace IDE
         public void analizar(RichTextBox richTextBox, DataGridView resultados, DataGridView errores)
         {
             int numeroLinea = 1;
+            listaToken.iniciarListaErroeres();
             listaToken.limpiarLista();
             textoEntrada = richTextBox.Text;
             textoEntrada = textoEntrada + " #";
@@ -37,15 +38,20 @@ namespace IDE
 
 
                 automataCadenas(richTextBox, c, i, numeroLinea);
-                automataNumeros(richTextBox, c, i, numeroLinea);
                 automataOperadores(richTextBox, c, i, numeroLinea);
+                automataNumeros(richTextBox, c, i, numeroLinea);
+                
+               // automataComentario(richTextBox, c, i, numeroLinea);
 
             }
 
             resultados.DataSource = (listaToken.getListaTokenResultado());
-            setNumeroToken(resultados.RowCount);
+           setNumeroToken(resultados.RowCount);
+
             errores.DataSource = (listaToken.getListaTokenErrores());
             setNumeroErrores(errores.RowCount);
+  
+
         }
 
 
@@ -137,7 +143,7 @@ namespace IDE
                     else
                     {
                         Console.WriteLine("error --- " + c + " despues de un puento se esperaban mas numeros");
-                        listaToken.agregarListaTokenErrores(new Token(123, c.ToString(), numeroLinea, "Se esperaba mas numeros ", "", Color.Yellow));
+                        listaToken.agregarListaTokenErrores(new Token(1, c.ToString(), numeroLinea, "Se esperaba mas numeros ", "", Color.Yellow));
                         pintar(richTextBox, LexemaAuxiliar, i, Color.Yellow);
                         LexemaAuxiliar = "";
                         estadoAutomataNumeros = 0;
@@ -152,14 +158,14 @@ namespace IDE
                     else if (c.CompareTo('.') == 0)
                     {
                         Console.WriteLine("error --- " + c + " despues de un puento se esperaban mas numeros");
-                        listaToken.agregarListaTokenErrores(new Token(123, c.ToString(), numeroLinea, "No se puede coloar dos puntos un un doble ", "", Color.Yellow));
+                        listaToken.agregarListaTokenErrores(new Token(2, c.ToString(), numeroLinea, "No se puede coloar dos puntos un un doble ", "", Color.Yellow));
                         pintar(richTextBox, LexemaAuxiliar, i, Color.Yellow);
                         LexemaAuxiliar = "";
                         estadoAutomataNumeros = 0;
                     }
                     else
                     {
-                        listaToken.agregarListaTokenResultado(new Token(1, LexemaAuxiliar, numeroLinea, "Decimal", "", Color.Cyan));
+                        listaToken.agregarListaTokenResultado(new Token(2, LexemaAuxiliar, numeroLinea, "Decimal", "", Color.Cyan));
                         pintar(richTextBox, LexemaAuxiliar, i, Color.Cyan);
                         LexemaAuxiliar = "";
                         estadoAutomataNumeros = 0;
@@ -187,7 +193,7 @@ namespace IDE
                     else
                     {
 
-                        listaToken.agregarListaTokenResultado(new Token(1, LexemaAuxiliar, numeroLinea, "Operador Artimetico", "Resta", Color.DarkBlue));
+                        listaToken.agregarListaTokenResultado(new Token(3, LexemaAuxiliar, numeroLinea, "Operador Artimetico", "Resta", Color.DarkBlue));
                         pintar(richTextBox, LexemaAuxiliar, i, Color.DarkBlue);
                         LexemaAuxiliar = "";
                         estadoAutomataNumeros = 0;
@@ -204,7 +210,7 @@ namespace IDE
                     else if (c.CompareTo('-') == 0)
                     {
 
-                        listaToken.agregarListaTokenErrores(new Token(123, c.ToString(), numeroLinea, "No se pueden colocar mas de dos guiones seguidos", "", Color.Yellow));
+                        listaToken.agregarListaTokenErrores(new Token(2, c.ToString(), numeroLinea, "No se pueden colocar mas de dos guiones seguidos", "", Color.Yellow));
                         pintar(richTextBox, LexemaAuxiliar, i, Color.Yellow);
                         LexemaAuxiliar = "";
                         estadoAutomataNumeros = 0;
@@ -212,7 +218,7 @@ namespace IDE
                     else
                     {
                         LexemaAuxiliar += c;
-                        listaToken.agregarListaTokenResultado(new Token(1, LexemaAuxiliar, numeroLinea, "Operador Artimetico", "Decremento", Color.DarkBlue));
+                        listaToken.agregarListaTokenResultado(new Token(4, LexemaAuxiliar, numeroLinea, "Operador Artimetico", "Decremento", Color.DarkBlue));
                         pintar(richTextBox, LexemaAuxiliar, i + 1, Color.DarkBlue);
                         LexemaAuxiliar = "";
                         estadoAutomataNumeros = 0;
@@ -234,7 +240,7 @@ namespace IDE
                     else
                     {
 
-                        listaToken.agregarListaTokenResultado(new Token(1, LexemaAuxiliar, numeroLinea, "Operador Artimetico", "Suma", Color.DarkBlue));
+                        listaToken.agregarListaTokenResultado(new Token(5, LexemaAuxiliar, numeroLinea, "Operador Artimetico", "Suma", Color.DarkBlue));
                         pintar(richTextBox, LexemaAuxiliar, i, Color.DarkBlue);
                         LexemaAuxiliar = "";
                         estadoAutomataNumeros = 0;
@@ -243,7 +249,7 @@ namespace IDE
                     break;
 
                 case 7:
-                    listaToken.agregarListaTokenResultado(new Token(1, LexemaAuxiliar, numeroLinea, "Operador Artimetico", "Incremento", Color.DarkBlue));
+                    listaToken.agregarListaTokenResultado(new Token(6, LexemaAuxiliar, numeroLinea, "Operador Artimetico", "Incremento", Color.DarkBlue));
                     pintar(richTextBox, LexemaAuxiliar, i, Color.DarkBlue);
                     LexemaAuxiliar = "";
                     estadoAutomataNumeros = 0;
@@ -269,7 +275,7 @@ namespace IDE
                      if (c.CompareTo('*') == 0)
                     {
                         LexemaAuxiliar += c;
-                        listaToken.agregarListaTokenResultado(new Token(1, LexemaAuxiliar, numeroLinea, "Operador Artimetico", "", Color.DarkBlue));
+                        listaToken.agregarListaTokenResultado(new Token(7, LexemaAuxiliar, numeroLinea, "Operador Artimetico", "", Color.DarkBlue));
                         pintar(richTextBox, LexemaAuxiliar, i, Color.DarkBlue);
                         LexemaAuxiliar = "";
                         estadoAutomataOperadores = 0;
@@ -312,15 +318,15 @@ namespace IDE
                     else if (c.CompareTo(';') == 0)
                     {
                         LexemaAuxiliar += c;
-                        listaToken.agregarListaTokenResultado(new Token(1, LexemaAuxiliar, numeroLinea, "Finalizador de linea", "", Color.Pink));
-                        pintar(richTextBox, LexemaAuxiliar, i + 1, Color.Pink);
+                        listaToken.agregarListaTokenResultado(new Token(8, LexemaAuxiliar, numeroLinea, "Finalizador de linea", "", Color.Pink));
+                        pintar(richTextBox, LexemaAuxiliar, i + 1, Color.Magenta);
                         LexemaAuxiliar = "";
                         estadoAutomataOperadores = 0;
                     }
                     else if (c.CompareTo('(') == 0)
                     {
                         LexemaAuxiliar += c;
-                        listaToken.agregarListaTokenResultado(new Token(1, LexemaAuxiliar, numeroLinea, "Signos de agrupación", "", Color.DarkBlue));
+                        listaToken.agregarListaTokenResultado(new Token(9, LexemaAuxiliar, numeroLinea, "Signos de agrupación", "", Color.DarkBlue));
                         pintar(richTextBox, LexemaAuxiliar, i + 1, Color.DarkBlue);
                         LexemaAuxiliar = "";
                         estadoAutomataOperadores = 0;
@@ -328,7 +334,7 @@ namespace IDE
                     else if (c.CompareTo(')') == 0)
                     {
                         LexemaAuxiliar += c;
-                        listaToken.agregarListaTokenResultado(new Token(1, LexemaAuxiliar, numeroLinea, "Signos de agrupación", "", Color.DarkBlue));
+                        listaToken.agregarListaTokenResultado(new Token(10, LexemaAuxiliar, numeroLinea, "Signos de agrupación", "", Color.DarkBlue));
                         pintar(richTextBox, LexemaAuxiliar, i + 1, Color.DarkBlue);
                         LexemaAuxiliar = "";
                         estadoAutomataOperadores = 0;
@@ -361,7 +367,7 @@ namespace IDE
                     if (c.CompareTo('+') == 0)
                     {
                         LexemaAuxiliar += c;
-                        listaToken.agregarListaTokenResultado(new Token(1, LexemaAuxiliar, numeroLinea, "Operador Artimetico", "Incremento", Color.DarkBlue));
+                        listaToken.agregarListaTokenResultado(new Token(11, LexemaAuxiliar, numeroLinea, "Operador Artimetico", "Incremento", Color.DarkBlue));
                         pintar(richTextBox, LexemaAuxiliar, i, Color.DarkBlue);
                         LexemaAuxiliar = "";
                         estadoAutomataOperadores = 0;
@@ -370,7 +376,7 @@ namespace IDE
                     else
                     {
 
-                        listaToken.agregarListaTokenResultado(new Token(1, LexemaAuxiliar, numeroLinea, "Operador Artimetico", "Suma", Color.DarkBlue));
+                        listaToken.agregarListaTokenResultado(new Token(12, LexemaAuxiliar, numeroLinea, "Operador Artimetico", "Suma", Color.DarkBlue));
                         pintar(richTextBox, LexemaAuxiliar, i + 1, Color.DarkBlue);
                         LexemaAuxiliar = "";
                         estadoAutomataOperadores = 0;
@@ -396,7 +402,7 @@ namespace IDE
                     else
                     {
 
-                        listaToken.agregarListaTokenResultado(new Token(1, LexemaAuxiliar, numeroLinea, "Operador Artimetico", "Resta", Color.DarkBlue));
+                        listaToken.agregarListaTokenResultado(new Token(13, LexemaAuxiliar, numeroLinea, "Operador Artimetico", "Resta", Color.DarkBlue));
                         pintar(richTextBox, LexemaAuxiliar, i + 1, Color.DarkBlue);
                         LexemaAuxiliar = "";
                         estadoAutomataOperadores = 0;
@@ -413,7 +419,7 @@ namespace IDE
                     else if (c.CompareTo('-') == 0)
                     {
 
-                        listaToken.agregarListaTokenErrores(new Token(123, c.ToString(), numeroLinea, "No se pueden colocar mas de dos guiones seguidos", "", Color.Yellow));
+                        listaToken.agregarListaTokenErrores(new Token(3, c.ToString(), numeroLinea, "No se pueden colocar mas de dos guiones seguidos", "", Color.Yellow));
                         pintar(richTextBox, LexemaAuxiliar, i, Color.Yellow);
                         LexemaAuxiliar = "";
                         estadoAutomataOperadores = 0;
@@ -421,7 +427,7 @@ namespace IDE
                     else
                     {
                         LexemaAuxiliar += c;
-                        listaToken.agregarListaTokenResultado(new Token(1, LexemaAuxiliar, numeroLinea, "Operador Artimetico", "Decremento", Color.DarkBlue));
+                        listaToken.agregarListaTokenResultado(new Token(14, LexemaAuxiliar, numeroLinea, "Operador Artimetico", "Decremento", Color.DarkBlue));
                         pintar(richTextBox, LexemaAuxiliar, i + 1, Color.DarkBlue);
                         LexemaAuxiliar = "";
                         estadoAutomataOperadores = 0;
@@ -446,7 +452,7 @@ namespace IDE
                     else
                     {
 
-                        listaToken.agregarListaTokenResultado(new Token(1, LexemaAuxiliar, numeroLinea, "Operadores relacionales", "Menor", Color.DarkBlue));
+                        listaToken.agregarListaTokenResultado(new Token(15, LexemaAuxiliar, numeroLinea, "Operadores relacionales", "Menor", Color.DarkBlue));
                         pintar(richTextBox, LexemaAuxiliar, i, Color.DarkBlue);
                         LexemaAuxiliar = "";
                         estadoAutomataOperadores = 0;
@@ -462,7 +468,7 @@ namespace IDE
                     else if (c.CompareTo('=') == 0 || c.CompareTo('<') == 0)
                     {
 
-                        listaToken.agregarListaTokenErrores(new Token(123, c.ToString(), numeroLinea, "No se pueden colocar tres singos seguidos", "", Color.Yellow));
+                        listaToken.agregarListaTokenErrores(new Token(4, c.ToString(), numeroLinea, "No se pueden colocar tres singos seguidos", "", Color.Yellow));
                         pintar(richTextBox, LexemaAuxiliar, i, Color.Yellow);
                         LexemaAuxiliar = "";
                         estadoAutomataOperadores = 0;
@@ -470,7 +476,7 @@ namespace IDE
                     else
                     {
                         LexemaAuxiliar += c;
-                        listaToken.agregarListaTokenResultado(new Token(1, LexemaAuxiliar, numeroLinea, "Operador Artimetico", "Menor Igual", Color.DarkBlue));
+                        listaToken.agregarListaTokenResultado(new Token(16, LexemaAuxiliar, numeroLinea, "Operador Artimetico", "Menor Igual", Color.DarkBlue));
                         pintar(richTextBox, LexemaAuxiliar, i + 1, Color.DarkBlue);
                         LexemaAuxiliar = "";
                         estadoAutomataOperadores = 0;
@@ -495,7 +501,7 @@ namespace IDE
                     else
                     {
 
-                        listaToken.agregarListaTokenResultado(new Token(1, LexemaAuxiliar, numeroLinea, "Operadores relacionales", "Mayor", Color.DarkBlue));
+                        listaToken.agregarListaTokenResultado(new Token(17, LexemaAuxiliar, numeroLinea, "Operadores relacionales", "Mayor", Color.DarkBlue));
                         pintar(richTextBox, LexemaAuxiliar, i, Color.DarkBlue);
                         LexemaAuxiliar = "";
                         estadoAutomataOperadores = 0;
@@ -511,7 +517,7 @@ namespace IDE
                     else if (c.CompareTo('=') == 0 || c.CompareTo('>') == 0)
                     {
 
-                        listaToken.agregarListaTokenErrores(new Token(123, c.ToString(), numeroLinea, "No se pueden colocar tres singos seguidos", "", Color.Yellow));
+                        listaToken.agregarListaTokenErrores(new Token(5, c.ToString(), numeroLinea, "No se pueden colocar tres singos seguidos", "", Color.Yellow));
                         pintar(richTextBox, LexemaAuxiliar, i, Color.Yellow);
                         LexemaAuxiliar = "";
                         estadoAutomataOperadores = 0;
@@ -519,7 +525,7 @@ namespace IDE
                     else
                     {
                         LexemaAuxiliar += c;
-                        listaToken.agregarListaTokenResultado(new Token(1, LexemaAuxiliar, numeroLinea, "Operador Artimetico", "Mayor Igual", Color.DarkBlue));
+                        listaToken.agregarListaTokenResultado(new Token(18, LexemaAuxiliar, numeroLinea, "Operador Artimetico", "Mayor Igual", Color.DarkBlue));
                         pintar(richTextBox, LexemaAuxiliar, i + 1, Color.DarkBlue);
                         LexemaAuxiliar = "";
                         estadoAutomataOperadores = 0;
@@ -544,7 +550,7 @@ namespace IDE
                     else
                     {
 
-                        listaToken.agregarListaTokenResultado(new Token(1, LexemaAuxiliar, numeroLinea, "Operador Relacional", "Igual", Color.DarkBlue));
+                        listaToken.agregarListaTokenResultado(new Token(19, LexemaAuxiliar, numeroLinea, "Operador Relacional", "Igual", Color.DarkBlue));
                         pintar(richTextBox, LexemaAuxiliar, i , Color.DarkBlue);
                         LexemaAuxiliar = "";
                         estadoAutomataOperadores = 0;
@@ -561,7 +567,7 @@ namespace IDE
                     else if (c.CompareTo('=') == 0)
                     {
 
-                        listaToken.agregarListaTokenErrores(new Token(123, c.ToString(), numeroLinea, "No se pueden colocar mas de dos iguales seguidos", "", Color.Yellow));
+                        listaToken.agregarListaTokenErrores(new Token(6, c.ToString(), numeroLinea, "No se pueden colocar mas de dos iguales seguidos", "", Color.Yellow));
                         pintar(richTextBox, LexemaAuxiliar, i, Color.Yellow);
                         LexemaAuxiliar = "";
                         estadoAutomataOperadores = 0;
@@ -569,7 +575,7 @@ namespace IDE
                     else
                     {
                         LexemaAuxiliar += c;
-                        listaToken.agregarListaTokenResultado(new Token(1, LexemaAuxiliar, numeroLinea, "Operador Relacional", "Comparacion", Color.DarkBlue));
+                        listaToken.agregarListaTokenResultado(new Token(20, LexemaAuxiliar, numeroLinea, "Operador Relacional", "Comparacion", Color.DarkBlue));
                         pintar(richTextBox, LexemaAuxiliar, i + 1, Color.DarkBlue);
                         LexemaAuxiliar = "";
                         estadoAutomataOperadores = 0;
@@ -594,7 +600,7 @@ namespace IDE
                     else
                     {
 
-                        listaToken.agregarListaTokenResultado(new Token(1, LexemaAuxiliar, numeroLinea, "Operadores Logico", "Negacion", Color.DarkBlue));
+                        listaToken.agregarListaTokenResultado(new Token(21, LexemaAuxiliar, numeroLinea, "Operadores Logico", "Negacion", Color.DarkBlue));
                         pintar(richTextBox, LexemaAuxiliar, i + 1, Color.DarkBlue);
                         LexemaAuxiliar = "";
                         estadoAutomataOperadores = 0;
@@ -610,7 +616,7 @@ namespace IDE
                     else if (c.CompareTo('=') == 0 || c.CompareTo('!') == 0)
                     {
 
-                        listaToken.agregarListaTokenErrores(new Token(123, c.ToString(), numeroLinea, "No se pueden colocar tres singos seguidos", "", Color.Yellow));
+                        listaToken.agregarListaTokenErrores(new Token(7, c.ToString(), numeroLinea, "No se pueden colocar tres singos seguidos", "", Color.Yellow));
                         pintar(richTextBox, LexemaAuxiliar, i, Color.Yellow);
                         LexemaAuxiliar = "";
                         estadoAutomataNumeros = 0;
@@ -618,7 +624,7 @@ namespace IDE
                     else
                     {
                         LexemaAuxiliar += c;
-                        listaToken.agregarListaTokenResultado(new Token(1, LexemaAuxiliar, numeroLinea, "Operador Artimetico", "Diferente", Color.DarkBlue));
+                        listaToken.agregarListaTokenResultado(new Token(22, LexemaAuxiliar, numeroLinea, "Operador Artimetico", "Diferente", Color.DarkBlue));
                         pintar(richTextBox, LexemaAuxiliar, i + 1, Color.DarkBlue);
                         LexemaAuxiliar = "";
                         estadoAutomataOperadores = 0;
@@ -644,7 +650,7 @@ namespace IDE
                     else
                     {
                         LexemaAuxiliar += c;
-                        listaToken.agregarListaTokenErrores(new Token(123, LexemaAuxiliar, numeroLinea, "Se esperaba otro &", "", Color.Yellow));
+                        listaToken.agregarListaTokenErrores(new Token(23, LexemaAuxiliar, numeroLinea, "Se esperaba otro &", "", Color.Yellow));
                         pintar(richTextBox, LexemaAuxiliar, i, Color.Yellow);
                         LexemaAuxiliar = "";
                         estadoAutomataOperadores = 0;
@@ -660,7 +666,7 @@ namespace IDE
                     else if (c.CompareTo('&') == 0)
                     {
 
-                        listaToken.agregarListaTokenErrores(new Token(123, c.ToString(), numeroLinea, "No se pueden colocar tres singos seguidos", "", Color.Yellow));
+                        listaToken.agregarListaTokenErrores(new Token(8, c.ToString(), numeroLinea, "No se pueden colocar tres singos seguidos", "", Color.Yellow));
                         pintar(richTextBox, LexemaAuxiliar, i, Color.Yellow);
                         LexemaAuxiliar = "";
                         estadoAutomataOperadores = 0;
@@ -668,7 +674,7 @@ namespace IDE
                     else
                     {
                         LexemaAuxiliar += c;
-                        listaToken.agregarListaTokenResultado(new Token(1, LexemaAuxiliar, numeroLinea, "Operador Logico", "Y", Color.DarkBlue));
+                        listaToken.agregarListaTokenResultado(new Token(24, LexemaAuxiliar, numeroLinea, "Operador Logico", "Y", Color.DarkBlue));
                         pintar(richTextBox, LexemaAuxiliar, i + 1, Color.DarkBlue);
                         LexemaAuxiliar = "";
                         estadoAutomataOperadores = 0;
@@ -676,7 +682,7 @@ namespace IDE
                     break;
                 #endregion
 
-                #region estado 14 y 15: agregar operador con el signo '&' y '&&'
+                #region estado 14 y 15: agregar operador con el signo '|' y '||'
                 case 14:
 
                     if (Char.IsDigit(c))
@@ -694,7 +700,7 @@ namespace IDE
                     else
                     {
                         LexemaAuxiliar += c;
-                        listaToken.agregarListaTokenErrores(new Token(123, LexemaAuxiliar, numeroLinea, "Se esperaba otro |", "", Color.Yellow));
+                        listaToken.agregarListaTokenErrores(new Token(9, LexemaAuxiliar, numeroLinea, "Se esperaba otro |", "", Color.Yellow));
                         pintar(richTextBox, LexemaAuxiliar, i, Color.Yellow);
                         LexemaAuxiliar = "";
                         estadoAutomataOperadores = 0;
@@ -710,7 +716,7 @@ namespace IDE
                     else if (c.CompareTo('|') == 0)
                     {
 
-                        listaToken.agregarListaTokenErrores(new Token(123, c.ToString(), numeroLinea, "No se pueden colocar tres singos seguidos", "", Color.Yellow));
+                        listaToken.agregarListaTokenErrores(new Token(10, c.ToString(), numeroLinea, "No se pueden colocar tres singos seguidos", "", Color.Yellow));
                         pintar(richTextBox, LexemaAuxiliar, i, Color.Yellow);
                         LexemaAuxiliar = "";
                         estadoAutomataOperadores = 0;
@@ -718,7 +724,7 @@ namespace IDE
                     else
                     {
                         LexemaAuxiliar += c;
-                        listaToken.agregarListaTokenResultado(new Token(1, LexemaAuxiliar, numeroLinea, "Operador Logico", "O", Color.DarkBlue));
+                        listaToken.agregarListaTokenResultado(new Token(25, LexemaAuxiliar, numeroLinea, "Operador Logico", "O", Color.DarkBlue));
                         pintar(richTextBox, LexemaAuxiliar, i + 1, Color.DarkBlue);
                         LexemaAuxiliar = "";
                         estadoAutomataOperadores = 0;
@@ -726,7 +732,7 @@ namespace IDE
                     break;
                 #endregion
 
-                #region estado 16 y 17: agregar operador con el signo '/' y '//'
+               #region estado 16 y 17: agregar operador con el signo '/' y '//'
                 case 16:
 
                     if (Char.IsDigit(c))
@@ -749,7 +755,7 @@ namespace IDE
                     }
                     else
                     {
-                        listaToken.agregarListaTokenResultado(new Token(1, LexemaAuxiliar, numeroLinea, "Operador Aritmetico", "Divicion", Color.DarkBlue));
+                        listaToken.agregarListaTokenResultado(new Token(26, LexemaAuxiliar, numeroLinea, "Operador Aritmetico", "Divicion", Color.DarkBlue));
                         pintar(richTextBox, LexemaAuxiliar, i + 1, Color.DarkBlue);
                         LexemaAuxiliar = "";
                         estadoAutomataOperadores = 0;
@@ -765,7 +771,7 @@ namespace IDE
                     else if (c.CompareTo('\n') == 0)
                     {
                         LexemaAuxiliar += c;
-                        listaToken.agregarListaTokenResultado(new Token(123, LexemaAuxiliar, numeroLinea, "Comentario", "Corto", Color.Yellow));
+                        listaToken.agregarListaTokenResultado(new Token(27, LexemaAuxiliar, numeroLinea, "Comentario", "Corto", Color.Yellow));
                         pintar(richTextBox, LexemaAuxiliar, i + 1, Color.Red);
                         LexemaAuxiliar = "";
                         estadoAutomataOperadores = 0;
@@ -773,7 +779,7 @@ namespace IDE
                     }
                     else
                     {
-                        listaToken.agregarListaTokenErrores(new Token(123, c.ToString(), numeroLinea, "Se cierre de cometario ", "", Color.Yellow));
+                        listaToken.agregarListaTokenErrores(new Token(11, c.ToString(), numeroLinea, "Se cierre de cometario ", "", Color.Yellow));
                         pintar(richTextBox, LexemaAuxiliar, i, Color.Yellow);
                         LexemaAuxiliar = "";
                         estadoAutomataOperadores = 0;
@@ -794,7 +800,7 @@ namespace IDE
                     }
                     else
                     {
-                        listaToken.agregarListaTokenErrores(new Token(123, c.ToString(), numeroLinea, "Se cierre de cometario ", "", Color.Yellow));
+                        listaToken.agregarListaTokenErrores(new Token(12, c.ToString(), numeroLinea, "Se cierre de cometario ", "", Color.Yellow));
                         pintar(richTextBox, LexemaAuxiliar, i, Color.Yellow);
                         LexemaAuxiliar = "";
                         estadoAutomataOperadores = 0;
@@ -810,7 +816,7 @@ namespace IDE
                     else if (c.CompareTo('/') == 0)
                     {
                         LexemaAuxiliar += c;
-                        listaToken.agregarListaTokenResultado(new Token(123, LexemaAuxiliar, numeroLinea, "Comentario", "Largo", Color.Yellow));
+                        listaToken.agregarListaTokenResultado(new Token(28, LexemaAuxiliar, numeroLinea, "Comentario", "Largo", Color.Yellow));
                         pintar(richTextBox, LexemaAuxiliar, i + 1, Color.Red);
                         LexemaAuxiliar = "";
                         estadoAutomataOperadores = 0;
@@ -819,7 +825,7 @@ namespace IDE
                     else
                     {
 
-                        listaToken.agregarListaTokenErrores(new Token(123, LexemaAuxiliar, numeroLinea, "Se esperaba cierre de cometario ", "", Color.Yellow));
+                        listaToken.agregarListaTokenErrores(new Token(13, LexemaAuxiliar, numeroLinea, "Se esperaba cierre de cometario ", "", Color.Yellow));
                         pintar(richTextBox, LexemaAuxiliar, i, Color.Yellow);
                         LexemaAuxiliar = "";
                         estadoAutomataOperadores = 0;
@@ -828,14 +834,12 @@ namespace IDE
 
                 #endregion
 
-                default:
-                    break;
-
             }
 
         }
 
         private int estadoAutomataCadenas;
+        private String[] reservedWord = new String[] { "SI", "SINO", "SINO_SI", "MIENTRAS", "HACER", "DESDE", "HASTA", "INCREMENTO", "ENTONCES" };
         public void automataCadenas(RichTextBox richTextBox, Char c, int i, int numeroLinea)
         {
 
@@ -844,8 +848,9 @@ namespace IDE
                 case 0:
                     if (c.CompareTo('"') == 0)
                     {
-                        LexemaAuxiliar += c;
                         estadoAutomataCadenas = 1;
+                        LexemaAuxiliar += c;
+                        
 
                     }
                     else if (Char.IsLetter(c))
@@ -858,6 +863,7 @@ namespace IDE
                         estadoAutomataCadenas = 2;
 
                     }
+
                     else
                     {
                         if (c.CompareTo('#') == 0 && i == textoEntrada.Length - 1)
@@ -884,15 +890,15 @@ namespace IDE
                     else if (c.CompareTo('"') == 0)
                     {
                         LexemaAuxiliar += c;
-                        listaToken.agregarListaTokenResultado(new Token(123, LexemaAuxiliar, numeroLinea, "Cadena", "", Color.Gray));
-                        pintar(richTextBox, LexemaAuxiliar, i + 1, Color.Gray);
+                        listaToken.agregarListaTokenResultado(new Token(29, LexemaAuxiliar, numeroLinea, "Cadena", "", Color.Gray));
+                        pintar(richTextBox, LexemaAuxiliar, i , Color.Gray);
                         LexemaAuxiliar = "";
                         estadoAutomataCadenas = 0;
 
                     }
                     else
                     {
-                        listaToken.agregarListaTokenErrores(new Token(123, c.ToString(), numeroLinea, "Se cierre de cometario ", "", Color.Yellow));
+                        listaToken.agregarListaTokenErrores(new Token(14, c.ToString(), numeroLinea, "Se cierre de cometario ", "", Color.Yellow));
                         pintar(richTextBox, LexemaAuxiliar, i, Color.Yellow);
                         LexemaAuxiliar = "";
                         estadoAutomataCadenas = 0;
@@ -923,7 +929,7 @@ namespace IDE
 
                         if (reservedWord.Contains(LexemaAuxiliar))
                         {
-                            listaToken.agregarListaTokenResultado(new Token(1, LexemaAuxiliar, numeroLinea, "Palabra Rervada", "", Color.Green));
+                            listaToken.agregarListaTokenResultado(new Token(30, LexemaAuxiliar, numeroLinea, "Palabra Rervada", "", Color.Green));
                             pintar(richTextBox, LexemaAuxiliar, i, Color.Green);
                             LexemaAuxiliar = "";
                             estadoAutomataCadenas = 0;
@@ -931,7 +937,7 @@ namespace IDE
                         }
                         else if ("true" == LexemaAuxiliar || "false" == LexemaAuxiliar)
                         {
-                            listaToken.agregarListaTokenResultado(new Token(1, LexemaAuxiliar, numeroLinea, "Boolean", "", Color.Orange));
+                            listaToken.agregarListaTokenResultado(new Token(31, LexemaAuxiliar, numeroLinea, "Boolean", "", Color.Orange));
                             pintar(richTextBox, LexemaAuxiliar, i, Color.Orange);
                             LexemaAuxiliar = "";
                             estadoAutomataCadenas = 0;
@@ -959,7 +965,7 @@ namespace IDE
                     else if (c.CompareTo('_') == 0)
                     {
 
-                        listaToken.agregarListaTokenErrores(new Token(123, c.ToString(), numeroLinea, "No se puede coloar dos guiones seguido ", "", Color.Yellow));
+                        listaToken.agregarListaTokenErrores(new Token(15, c.ToString(), numeroLinea, "No se puede coloar dos guiones seguido ", "", Color.Yellow));
                         pintar(richTextBox, LexemaAuxiliar, i, Color.Yellow);
                         LexemaAuxiliar = "";
                         estadoAutomataCadenas = 0;
@@ -975,7 +981,7 @@ namespace IDE
 
                         if (reservedWord.Contains(LexemaAuxiliar))
                         {
-                            listaToken.agregarListaTokenResultado(new Token(1, LexemaAuxiliar, numeroLinea, "Palabra Rervada", "", Color.Green));
+                            listaToken.agregarListaTokenResultado(new Token(32, LexemaAuxiliar, numeroLinea, "Palabra Rervada", "", Color.Green));
                             pintar(richTextBox, LexemaAuxiliar, i, Color.Green);
                             LexemaAuxiliar = "";
                             estadoAutomataCadenas = 0;
@@ -983,7 +989,7 @@ namespace IDE
                         }
                         else if ("true" == LexemaAuxiliar || "false" == LexemaAuxiliar)
                         {
-                            listaToken.agregarListaTokenResultado(new Token(1, LexemaAuxiliar, numeroLinea, "Boolean", "", Color.Orange));
+                            listaToken.agregarListaTokenResultado(new Token(33, LexemaAuxiliar, numeroLinea, "Boolean", "", Color.Orange));
                             pintar(richTextBox, LexemaAuxiliar, i, Color.Orange);
                             LexemaAuxiliar = "";
                             estadoAutomataCadenas = 0;
@@ -1004,7 +1010,7 @@ namespace IDE
                 case 4:
                     if (reservedWord.Contains(LexemaAuxiliar))
                     {
-                        listaToken.agregarListaTokenResultado(new Token(1, LexemaAuxiliar, numeroLinea, "Palabra Rervada", "", Color.Green));
+                        listaToken.agregarListaTokenResultado(new Token(34, LexemaAuxiliar, numeroLinea, "Palabra Rervada", "", Color.Green));
                         pintar(richTextBox, LexemaAuxiliar, i, Color.Green);
                         LexemaAuxiliar = "";
                         estadoAutomataCadenas = 0;
@@ -1012,7 +1018,7 @@ namespace IDE
                     }
                     else if ("true" == LexemaAuxiliar || "false" == LexemaAuxiliar)
                     {
-                        listaToken.agregarListaTokenResultado(new Token(1, LexemaAuxiliar, numeroLinea, "Boolean", "", Color.Orange));
+                        listaToken.agregarListaTokenResultado(new Token(35, LexemaAuxiliar, numeroLinea, "Boolean", "", Color.Orange));
                         pintar(richTextBox, LexemaAuxiliar, i, Color.Orange);
                         LexemaAuxiliar = "";
                         estadoAutomataCadenas = 0;
@@ -1030,13 +1036,139 @@ namespace IDE
                     break;
                 #endregion
 
- 
             }
 
         }
 
-        private String[] reservedWord = new String[] { "SI", "SINO", "SINO_SI", "MIENTRAS", "HACER", "DESDE", "HASTA", "INCREMENTO", "ENTONCES" };
+        int estadoAutomataComentario=0;
+        public void automataComentario(RichTextBox richTextBox, Char c, int i, int numeroLinea)
+        {
+            switch (estadoAutomataComentario)
+            {
+ 
+                case 0:
+                    if (c.CompareTo('/') == 0)
+                    {
+                        estadoAutomataComentario = 1;
+                        LexemaAuxiliar += c;
 
+                    }
+                    else
+                    {
+                        if (c.CompareTo('#') == 0 && i == textoEntrada.Length - 1)
+                        {
+                            Console.WriteLine("fin de la cadena");
+                        }
+                        else
+                        {
+                            Console.WriteLine("error --- " + c);
+                            estadoAutomataComentario = 0;
+                        }
+                    }
+
+                    break;
+                case 1:
+
+                    if (Char.IsDigit(c))
+                    {
+                        estadoAutomataComentario = 0;
+
+                    }
+
+                    else if (c.CompareTo('/') == 0)
+                    {
+                        LexemaAuxiliar += c;
+                        estadoAutomataComentario = 2;
+
+                    }
+                    else if (c.CompareTo('*') == 0)
+                    {
+                        LexemaAuxiliar += c;
+                        estadoAutomataComentario = 3;
+
+                    }
+                    else
+                    {
+                        listaToken.agregarListaTokenResultado(new Token(1, LexemaAuxiliar, numeroLinea, "Operador Aritmetico", "Divicion", Color.DarkBlue));
+                        pintar(richTextBox, LexemaAuxiliar, i + 1, Color.DarkBlue);
+                        LexemaAuxiliar = "";
+                        estadoAutomataComentario = 0;
+                    }
+                    break;
+
+                case 2:
+                    if (Char.IsLetter(c) || Char.IsDigit(c) || c.CompareTo(' ') == 0)
+                    {
+                        estadoAutomataComentario = 2;
+                        LexemaAuxiliar += c;
+                    }
+                    else if (c.CompareTo('\n') == 0)
+                    {
+                        LexemaAuxiliar += c;
+                        listaToken.agregarListaTokenResultado(new Token(123, LexemaAuxiliar, numeroLinea, "Comentario", "Corto", Color.Yellow));
+                        pintar(richTextBox, LexemaAuxiliar, i + 1, Color.Red);
+                        LexemaAuxiliar = "";
+                        estadoAutomataComentario = 0;
+
+                    }
+                    else
+                    {
+                        listaToken.agregarListaTokenErrores(new Token(123, c.ToString(), numeroLinea, "Se cierre de cometario ", "", Color.Yellow));
+                        pintar(richTextBox, LexemaAuxiliar, i, Color.Yellow);
+                        LexemaAuxiliar = "";
+                        estadoAutomataComentario = 0;
+                    }
+                    break;
+
+                case 3:
+                    if (Char.IsLetter(c) || Char.IsDigit(c) || c.CompareTo(' ') == 0 || c.CompareTo('\n') == 0)
+                    {
+                        estadoAutomataComentario = 3;
+                        LexemaAuxiliar += c;
+                    }
+                    else if (c.CompareTo('*') == 0)
+                    {
+                        estadoAutomataComentario = 4;
+                        LexemaAuxiliar += c;
+
+                    }
+                    else
+                    {
+                        listaToken.agregarListaTokenErrores(new Token(123, c.ToString(), numeroLinea, "Se cierre de cometario ", "", Color.Yellow));
+                        pintar(richTextBox, LexemaAuxiliar, i, Color.Yellow);
+                        LexemaAuxiliar = "";
+                        estadoAutomataComentario = 0;
+                    }
+
+                    break;
+                case 4:
+                    if (Char.IsLetter(c) || Char.IsDigit(c) || c.CompareTo(' ') == 0)
+                    {
+                        estadoAutomataComentario = 2;
+                        LexemaAuxiliar += c;
+                    }
+                    else if (c.CompareTo('/') == 0)
+                    {
+                        LexemaAuxiliar += c;
+                        listaToken.agregarListaTokenResultado(new Token(123, LexemaAuxiliar, numeroLinea, "Comentario", "Largo", Color.Yellow));
+                        pintar(richTextBox, LexemaAuxiliar, i + 1, Color.Red);
+                        LexemaAuxiliar = "";
+                        estadoAutomataComentario = 0;
+
+                    }
+                    else
+                    {
+
+                        listaToken.agregarListaTokenErrores(new Token(123, LexemaAuxiliar, numeroLinea, "Se esperaba cierre de cometario ", "", Color.Yellow));
+                        pintar(richTextBox, LexemaAuxiliar, i, Color.Yellow);
+                        LexemaAuxiliar = "";
+                        estadoAutomataComentario = 0;
+                    }
+                    break;
+
+
+            }
+        }
 
         public void setNumeroErrores(int numeroErrores) { this.numeroErrores = numeroErrores; }
         public void setNumeroToken(int numeroToken) { this.numeroToken = numeroToken; }

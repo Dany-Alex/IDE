@@ -32,6 +32,12 @@ namespace IDE
         {
             listaTokenErrores.Add(nuevo);
         }
+        public void iniciarListaErroeres()
+        {
+            Token nuevo = new Token(123, " ", 1, "Comentario", "Corto", Color.Yellow);
+
+            listaTokenErrores.Add(nuevo);
+        }
 
         public List<Token> getListaTokenErrores()
         {

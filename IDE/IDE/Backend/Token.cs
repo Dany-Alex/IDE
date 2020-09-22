@@ -10,7 +10,7 @@ namespace IDE
     class Token
     {
         private int id;
-        private string simbolo;
+        private string lexema;
         private int numeroLinea;
         private string tipo;
         private string descripcion;
@@ -20,10 +20,10 @@ namespace IDE
         {
         }
 
-        public Token(int id, string simbolo, int numeroLinea, string tipo, string descripcion, Color color)
+        public Token(int id, string lexema, int numeroLinea, string tipo, string descripcion, Color color)
         {
             this.Id = id;
-            this.Simbolo = simbolo;
+            this.Simbolo = lexema;
             this.NumeroLinea = numeroLinea;
             this.Tipo = tipo;
             this.Descripcion = descripcion;
@@ -31,7 +31,7 @@ namespace IDE
         }
 
         public int Id { get => id; set => id = value; }
-        public string Simbolo { get => simbolo; set => simbolo = value; }
+        public string Simbolo { get => lexema; set => lexema = value; }
         public int NumeroLinea { get => numeroLinea; set => numeroLinea = value; }
         public string Tipo { get => tipo; set => tipo = value; }
         public string Descripcion { get => descripcion; set => descripcion = value; }
