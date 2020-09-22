@@ -48,8 +48,8 @@
             this.getColumnaLabel = new System.Windows.Forms.Label();
             this.panel1 = new System.Windows.Forms.Panel();
             this.limpiarCodigoBoton = new System.Windows.Forms.Button();
-            this.salirBoton = new System.Windows.Forms.Button();
             this.button1 = new System.Windows.Forms.Button();
+            this.salirBoton = new System.Windows.Forms.Button();
             this.tabControl2 = new System.Windows.Forms.TabControl();
             this.tabPage3 = new System.Windows.Forms.TabPage();
             this.entradaRichTextBox = new System.Windows.Forms.RichTextBox();
@@ -110,7 +110,7 @@
             // 
             this.tabControl1.Controls.Add(this.tabPage1);
             this.tabControl1.Controls.Add(this.tabPage2);
-            this.tabControl1.Location = new System.Drawing.Point(0, 332);
+            this.tabControl1.Location = new System.Drawing.Point(0, 470);
             this.tabControl1.Margin = new System.Windows.Forms.Padding(4);
             this.tabControl1.Name = "tabControl1";
             this.tabControl1.SelectedIndex = 0;
@@ -176,7 +176,7 @@
             // getLineaLabel
             // 
             this.getLineaLabel.AutoSize = true;
-            this.getLineaLabel.Location = new System.Drawing.Point(531, 317);
+            this.getLineaLabel.Location = new System.Drawing.Point(531, 455);
             this.getLineaLabel.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.getLineaLabel.Name = "getLineaLabel";
             this.getLineaLabel.Size = new System.Drawing.Size(12, 17);
@@ -186,7 +186,7 @@
             // label2
             // 
             this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(475, 317);
+            this.label2.Location = new System.Drawing.Point(475, 455);
             this.label2.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.label2.Name = "label2";
             this.label2.Size = new System.Drawing.Size(47, 17);
@@ -196,7 +196,7 @@
             // label3
             // 
             this.label3.AutoSize = true;
-            this.label3.Location = new System.Drawing.Point(588, 317);
+            this.label3.Location = new System.Drawing.Point(588, 455);
             this.label3.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.label3.Name = "label3";
             this.label3.Size = new System.Drawing.Size(67, 17);
@@ -206,7 +206,7 @@
             // getColumnaLabel
             // 
             this.getColumnaLabel.AutoSize = true;
-            this.getColumnaLabel.Location = new System.Drawing.Point(664, 317);
+            this.getColumnaLabel.Location = new System.Drawing.Point(664, 455);
             this.getColumnaLabel.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.getColumnaLabel.Name = "getColumnaLabel";
             this.getColumnaLabel.Size = new System.Drawing.Size(12, 17);
@@ -217,7 +217,7 @@
             // 
             this.panel1.Controls.Add(this.limpiarCodigoBoton);
             this.panel1.Controls.Add(this.button1);
-            this.panel1.Location = new System.Drawing.Point(141, 307);
+            this.panel1.Location = new System.Drawing.Point(141, 445);
             this.panel1.Name = "panel1";
             this.panel1.Size = new System.Drawing.Size(219, 44);
             this.panel1.TabIndex = 10;
@@ -233,17 +233,6 @@
             this.limpiarCodigoBoton.UseVisualStyleBackColor = true;
             this.limpiarCodigoBoton.Click += new System.EventHandler(this.limpiarCodigoBoton_Click);
             // 
-            // salirBoton
-            // 
-            this.salirBoton.Location = new System.Drawing.Point(843, 309);
-            this.salirBoton.Margin = new System.Windows.Forms.Padding(4);
-            this.salirBoton.Name = "salirBoton";
-            this.salirBoton.Size = new System.Drawing.Size(100, 28);
-            this.salirBoton.TabIndex = 2;
-            this.salirBoton.Text = "Salir";
-            this.salirBoton.UseVisualStyleBackColor = true;
-            this.salirBoton.Click += new System.EventHandler(this.button2_Click);
-            // 
             // button1
             // 
             this.button1.Location = new System.Drawing.Point(112, 7);
@@ -255,6 +244,17 @@
             this.button1.UseVisualStyleBackColor = true;
             this.button1.Click += new System.EventHandler(this.button1_Click_1);
             // 
+            // salirBoton
+            // 
+            this.salirBoton.Location = new System.Drawing.Point(843, 447);
+            this.salirBoton.Margin = new System.Windows.Forms.Padding(4);
+            this.salirBoton.Name = "salirBoton";
+            this.salirBoton.Size = new System.Drawing.Size(100, 28);
+            this.salirBoton.TabIndex = 2;
+            this.salirBoton.Text = "Salir";
+            this.salirBoton.UseVisualStyleBackColor = true;
+            this.salirBoton.Click += new System.EventHandler(this.button2_Click);
+            // 
             // tabControl2
             // 
             this.tabControl2.Controls.Add(this.tabPage3);
@@ -262,7 +262,7 @@
             this.tabControl2.Margin = new System.Windows.Forms.Padding(4);
             this.tabControl2.Name = "tabControl2";
             this.tabControl2.SelectedIndex = 0;
-            this.tabControl2.Size = new System.Drawing.Size(953, 267);
+            this.tabControl2.Size = new System.Drawing.Size(953, 412);
             this.tabControl2.TabIndex = 9;
             // 
             // tabPage3
@@ -272,7 +272,7 @@
             this.tabPage3.Margin = new System.Windows.Forms.Padding(4);
             this.tabPage3.Name = "tabPage3";
             this.tabPage3.Padding = new System.Windows.Forms.Padding(4);
-            this.tabPage3.Size = new System.Drawing.Size(945, 238);
+            this.tabPage3.Size = new System.Drawing.Size(945, 383);
             this.tabPage3.TabIndex = 0;
             this.tabPage3.Text = "Editor";
             this.tabPage3.UseVisualStyleBackColor = true;
@@ -283,7 +283,7 @@
             this.entradaRichTextBox.Location = new System.Drawing.Point(0, 0);
             this.entradaRichTextBox.Margin = new System.Windows.Forms.Padding(4);
             this.entradaRichTextBox.Name = "entradaRichTextBox";
-            this.entradaRichTextBox.Size = new System.Drawing.Size(945, 242);
+            this.entradaRichTextBox.Size = new System.Drawing.Size(945, 387);
             this.entradaRichTextBox.TabIndex = 2;
             this.entradaRichTextBox.Text = "";
             this.entradaRichTextBox.Click += new System.EventHandler(this.entradaRichTextBox_Click);
@@ -293,7 +293,7 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(956, 590);
+            this.ClientSize = new System.Drawing.Size(956, 713);
             this.Controls.Add(this.panel1);
             this.Controls.Add(this.salirBoton);
             this.Controls.Add(this.tabControl2);
