@@ -1,14 +1,14 @@
-int numero = 9;
-double decimal1 = -10.5;
-double decimal2= 10.5;
-int numero2 = -9;
-boolen prueba1 = true;
-boolen prueba2 = false;
+entero numero = 9;
+double decimal1 = -10.5 ;
+double decimal2= 10.5 ;
+entero numero2 = -9 ;
+booleno prueba1 = true;
+booleno prueba2 = false;
 
 MIENTRAS(HACER){
 SI( prueba1 != true&& prueba2 = false&& numero < 9 ){ 
 
-   SI( DESDE= 1; HASTA>= 10; INCREMENTO++){
+   SI( DESDE= 1 ; HASTA>= 10 ; INCREMENTO++){
    string ="hola";
    }SINO{
     //comentario
@@ -17,15 +17,17 @@ SI( prueba1 != true&& prueba2 = false&& numero < 9 ){
 
 }SINO_SI( prueba1 = true|| prueba2 == false|| numero > 9 ){
 
-   SI( DESDE= 1; HASTA<= 10; INCREMENTO--){
+   SI( DESDE= 1 ; HASTA<= 10 ; INCREMENTO--){
    string ="hola";
    }SINO{
     //comentario
    }
 char caracter = 'a' ;
-int tmp= ((prueba1 + prueba) - 1) / 2;
+entero tmp= ((prueba1 + prueba) - 1) / 2;
 }
 }
+
+
 
 
 

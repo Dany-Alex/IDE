@@ -38,8 +38,9 @@ namespace IDE
 
 
                 automataCadenas(richTextBox, c, i, numeroLinea);
-                automataOperadores(richTextBox, c, i, numeroLinea);
                 automataNumeros(richTextBox, c, i, numeroLinea);
+                automataOperadores(richTextBox, c, i, numeroLinea);
+                
                 
                // automataComentario(richTextBox, c, i, numeroLinea);
 
