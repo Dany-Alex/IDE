@@ -20,7 +20,7 @@ namespace IDE
         String textoEntrada;
 
         int numeroErrores, numeroToken;
-        public void analizar(RichTextBox richTextBox, DataGridView resultados, DataGridView errores)
+        public void analizar(RichTextBox richTextBox,RichTextBox richTextBox2, DataGridView resultados, DataGridView errores)
         {
             int numeroLinea = 1;
             listaToken.iniciarListaErroeres();
@@ -60,17 +60,16 @@ namespace IDE
            
             AnalizadorLL1 = new AnalizadorLL1("E", listaToken.getListaTokenResultado(), listaToken.getListaTokenErrores());
 
-            AnalizadorLL1.iniciarGramatica();
+            AnalizadorLL1.iniciarGramatica(richTextBox2);
  Console.WriteLine( "Analizador ll1");
             AnalizadorLL1.analizar();
-
-
-
-            
+                      
            
         }
 
-
+        string codigoDot = null;
+        public void setCodigoDot(string codigoDot) { this.codigoDot = codigoDot; }
+        public string getCodigoDot() { return this.codigoDot; }
 
         public void pintar(RichTextBox richTextBox, String palabla, int startIndex, Color color)
         {
