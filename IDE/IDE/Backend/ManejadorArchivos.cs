@@ -82,7 +82,74 @@ namespace IDE
         }
 
 
-        string direccionArchivo = null;
+
+        string direccionArchivoJPG = null;
+        public void setFileNameJPG(string direccionArchivo) { this.direccionArchivoJPG = direccionArchivo; }
+        public string getFileNameJPG() { return this.direccionArchivoJPG; }
+        public void guardarJPGComo(SaveFileDialog saveFileDialog, String texto)
+        {
+            propiedadesSaveFileDiaogExportJPG(saveFileDialog);
+            try
+            {
+                if (saveFileDialog.ShowDialog() == DialogResult.OK)
+                {
+                    if (File.Exists(saveFileDialog.FileName))
+                    {
+
+                        String nombreArchivo = saveFileDialog.FileName;
+                        escribir(texto, nombreArchivo);
+                        setFileName(saveFileDialog.FileName);
+                    }
+                    else
+                    {
+                        String nombreArchivo = saveFileDialog.FileName;
+                        escribir(texto, nombreArchivo);
+                        setFileName(saveFileDialog.FileName);
+                    }
+                }
+            }
+            catch (Exception)
+            {
+                MessageBox.Show("Error al Guardar");
+            }
+        }
+
+
+
+        string direccionArchivoGraphviz = null;
+        public void setFileNameGraphviz(string direccionArchivo) { this.direccionArchivoGraphviz = direccionArchivo; }
+        public string getFileNameGraphviz() { return this.direccionArchivoGraphviz; }
+        public void guardarGraphvizComo(SaveFileDialog saveFileDialog, String texto)
+        {
+            propiedadesSaveFileDiaogGraphviz(saveFileDialog);
+            try
+            {
+                if (saveFileDialog.ShowDialog() == DialogResult.OK)
+                {
+                    if (File.Exists(saveFileDialog.FileName))
+                    {
+
+                        String nombreArchivo = saveFileDialog.FileName;
+                        escribir(texto, nombreArchivo);
+                        setFileNameGraphviz(saveFileDialog.FileName);
+                    }
+                    else
+                    {
+                        String nombreArchivo = saveFileDialog.FileName;
+                        escribir(texto, nombreArchivo);
+                        setFileNameGraphviz(saveFileDialog.FileName);
+                    }
+                }
+            }
+            catch (Exception)
+            {
+                MessageBox.Show("Error al Guardar");
+            }
+        }
+
+
+
+
         public void cargar(OpenFileDialog openFileDialog, RichTextBox entradaRichTextBox) {
             propiedadesOpenFileDialog(openFileDialog);
             try
@@ -93,7 +160,7 @@ namespace IDE
                         String nombreArchivo = openFileDialog.FileName;
                         leer(entradaRichTextBox,nombreArchivo);
                         setFileName( openFileDialog.FileName);
-                        MessageBox.Show("Archivo: "+nombreArchivo+" cargado exitosamente");
+                       // MessageBox.Show("Archivo: "+nombreArchivo+" cargado exitosamente");
                     }
                     else{
                        
@@ -105,7 +172,7 @@ namespace IDE
                 MessageBox.Show("Error al Cargar");
             }
         }
-
+        string direccionArchivo = null;
         public void setFileName(string direccionArchivo) { this.direccionArchivo = direccionArchivo; }
 
         public string getFileName() { return this.direccionArchivo; }
@@ -132,6 +199,18 @@ namespace IDE
             saveFileDialog.AddExtension = true;
         }
 
+        private void propiedadesSaveFileDiaogGraphviz(SaveFileDialog saveFileDialog)
+        {
+            saveFileDialog.Filter = "Code File (.txt)|*.txt";
+            saveFileDialog.DefaultExt = "txt";
+            saveFileDialog.AddExtension = true;
+        }
+        private void propiedadesSaveFileDiaogExportJPG(SaveFileDialog saveFileDialog)
+        {
+            saveFileDialog.Filter = "IMG File (.jpg)|*.jpg";
+            saveFileDialog.DefaultExt = "jpg";
+            saveFileDialog.AddExtension = true;
+        }
         private void propiedadesSaveFileDiaogError(SaveFileDialog saveFileDialog)
         {
             saveFileDialog.Filter = "Code File (.gtE)|*.gtE";

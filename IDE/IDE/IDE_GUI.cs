@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
 using System.Drawing;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Text.RegularExpressions;
@@ -20,11 +21,11 @@ namespace IDE
         public IDE()
         {
             InitializeComponent();
-
+            
             dataGridView1.DataSource = null;
             dataGridView2.DataSource = null;
 
-            analizador.analizar(entradaRichTextBox, dataGridView1, dataGridView2);
+            analizador.analizar(entradaRichTextBox,richTextBoxConsola, dataGridView1, dataGridView2);
 
             String direccionArchivo;
             direccionArchivo = manejador.getFileName();
@@ -64,13 +65,15 @@ namespace IDE
         this.Text = string.Format("IDE - {0} *- ", manejador.getFileName());
             getLineaColumna();
 
+            
+        
         }
 
         public void getLineaColumna() {
             int linea = entradaRichTextBox.GetLineFromCharIndex(entradaRichTextBox.SelectionStart) + 1;
             int columna = entradaRichTextBox.SelectionStart - entradaRichTextBox.GetFirstCharIndexOfCurrentLine();
-            getLineaLabel.Text = linea.ToString();
-            getColumnaLabel.Text = columna.ToString();
+                
+            getLineaLabel.Text = string.Format("Linea: {0}  Columna: {1}", linea, columna);
         }
         private void IDE_Load(object sender, EventArgs e)
         {
@@ -121,7 +124,9 @@ namespace IDE
             dataGridView1.DataSource = null;
             dataGridView2.DataSource = null;
 
-            analizador.analizar(entradaRichTextBox, dataGridView1,dataGridView2);
+            analizador.analizar(entradaRichTextBox,richTextBoxConsola, dataGridView1,dataGridView2);
+
+
 
             String direccionArchivo;
             direccionArchivo = manejador.getFileName();
@@ -200,6 +205,77 @@ namespace IDE
             manejador.guardarErrorComo(saveFileDialog1, datos);
 
 
+        }
+
+        private void panel3_Paint(object sender, PaintEventArgs e)
+        {
+
+        }
+
+        private void tableLayoutPanel1_Paint(object sender, PaintEventArgs e)
+        {
+
+        }
+
+        private void buttonGenerarArbol_Click(object sender, EventArgs e)
+        {
+            manejador.guardarGraphvizComo(saveFileDialog1, analizador.getCodigoDot());
+            graficador();
+            GenerateGraph(analizador.getCodigoDot());
+            abrirGrafo();
+            
+        }
+
+        string ruta;
+        StringBuilder grafo;
+        public void graficador() { ruta = Environment.GetFolderPath(Environment.SpecialFolder.DesktopDirectory); }
+        public void GenerateGraph(string codigoDot)
+        {
+            
+            try
+            {
+                grafo = new StringBuilder();
+                string rutaDot = ruta + "\\img\\graph.txt";
+                string salida = ruta + "\\img\\graph1.png";
+                grafo.Append(codigoDot);
+                this.generar(rutaDot, salida);
+
+                MessageBox.Show("ok generar Graph" + rutaDot + " - " + salida);
+            }
+            catch (Exception x) { MessageBox.Show(x.ToString()); }
+        }
+        public void abrirGrafo() {
+            if (File.Exists(ruta))
+            {
+                try {
+                    System.Diagnostics.Process.Start(ruta);
+                    MessageBox.Show("ok abrir" + ruta );
+
+                }
+                catch (Exception x){ MessageBox.Show(x.ToString()); }
+            }
+            else { 
+            }
+        }
+        public void  generar(string rutaDot, String salidaIMG)
+        {
+
+            try
+            {
+                System.IO.File.WriteAllText(rutaDot, grafo.ToString());
+                string comando = "dot.exe -Tpng " + rutaDot + " -o " + salidaIMG+" ";
+                var formatoComando = string.Format(comando);
+                var processStart = new System.Diagnostics.ProcessStartInfo("cmd", "/C" + formatoComando);
+                var process = new System.Diagnostics.Process();
+                process.StartInfo = processStart;
+                process.Start();
+                process.WaitForExit();
+                    MessageBox.Show("ok generar" + formatoComando );
+
+            }
+            catch (Exception x) { MessageBox.Show(x.ToString()); }
+
+           
         }
     }
 }

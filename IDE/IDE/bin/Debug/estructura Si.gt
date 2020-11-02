@@ -1,0 +1,23 @@
+principal() {
+
+	SI(!falso){
+ 		_a = 770;
+	}
+	SINO_SI( _c > _b && verdadero){
+ 		_b = 50;
+
+		 _v = -51.2;
+	}
+	SINO_SI(verdadero){
+	
+	}
+	SINO
+	{
+	
+	}
+
+}
+
+
+
+

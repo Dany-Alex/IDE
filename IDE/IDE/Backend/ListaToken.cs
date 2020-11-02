@@ -12,10 +12,13 @@ namespace IDE
 
         private List<Token> listaTokenResultado = new List<Token>();
         private List<Token> listaTokenErrores= new List<Token>();
+        private List<Token> listaTokenTodo = new List<Token>();
+
         public void limpiarLista()
         {
             listaTokenResultado.Clear();
             listaTokenErrores.Clear();
+            listaTokenTodo.Clear();
         }
 
         public void agregarListaTokenResultado(Token nuevo)
@@ -43,5 +46,17 @@ namespace IDE
         {
             return listaTokenErrores;
         }
+
+
+        public void agregarListaTokenTodo(Token nuevo)
+        {
+            listaTokenTodo.Add(nuevo);
+        }
+
+        public List<Token> agregarListaTokenTodo()
+        {
+            return listaTokenTodo;
+        }
+
     }
 }

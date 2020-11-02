@@ -1,27 +1,75 @@
-int = 9;
--10.5
-10.5
--9
-&& ||
-> < >=
-<=
-==
-!=
-true
-false
-mientras(hacer){
-sino_si si
-   si( desde=1; hasta=10; incremento=1){
-   string="hola";
-   }sino{
-    //comentario
-   }
-++
---
--
-+
-/* dfgh */
+principal() {
+
+	
+	SI( _a > _b) {
+ 		entero _T = 500;
+	}
+
+
+	SI( _a > _b){
+		 _a = 770;
+	}
+	SINO{
+ 		_b = 50;
+	}
+
+
+	SI(!falso){
+ 		_a = 770;
+	}
+	SINO_SI( _c > _b && verdadero){
+ 		_b = 50;
+
+		 _v = -51.2;
+	}
+	SINO_SI(verdadero){
+		//sentencias
+	}
+	SINO
+	{
+		//sentencias
+	}
+
+          imprimir ( _algo + _algo1 ++);
+          leer( _variable);
+          entero _a = 0;
+          cadena _saludo = "hola";
+
+          	MIENTRAS( _a < 5 ) {
+                	imprimir ( _a + “resultado”);
+                	_a++;
+         	}
+
+	MIENTRAS( _id > 10){
+ 		_c = 5;
+		 _a = 159.01;
+		imprimir(“datos”);
+		entero _vari = 15;
+	}	
+
+	HACER( _id > 10) {
+		 _c= 5;
+ 		_a = 159.01;
+		imprimir(“datos”) ;
+		entero _var = 15;
+	}
+	MIENTRAS( _datos == 2)
+
+	DESDE( _i = 0 HASTA _i < 20 INCREMENTO++){
+ 		_c= 5;
+ 		_a = 159.01;
+		imprimir( “datos” ) ;
+		entero _var = 15;
+	}
+
 }
+
+
+
+
+
+
+
 
 
 
