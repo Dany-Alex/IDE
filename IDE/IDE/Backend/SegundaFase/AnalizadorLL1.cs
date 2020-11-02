@@ -84,24 +84,25 @@ namespace IDE.Backend.SegundaFase
 
             GLC.listaGramaticaLibreContextoRegla.Add(new GLC_Regla("E", "principal", "(", ")", "BLOQUE_CODIGO"));
             GLC.listaGramaticaLibreContextoRegla.Add(new GLC_Regla("BLOQUE_CODIGO", "{", "CODIGO", "}"));
-            listaNoTerminales.Add("BLOQUE_CODIGO");
+
             GLC.listaGramaticaLibreContextoRegla.Add(new GLC_Regla("CODIGO", "CODIGO_PRIMA", "CODIGO"));
             GLC.listaGramaticaLibreContextoRegla.Add(new GLC_Regla("CODIGO"));
-            listaNoTerminales.Add("CODIGO");
 
             GLC.listaGramaticaLibreContextoRegla.Add(new GLC_Regla("CODIGO_PRIMA", "VARIABLE_ASIGNADA"));
             GLC.listaGramaticaLibreContextoRegla.Add(new GLC_Regla("CODIGO_PRIMA", "ESTRUCTURA_SI"));
+            GLC.listaGramaticaLibreContextoRegla.Add(new GLC_Regla("CODIGO_PRIMA", "ESTRUCTURA_MIENTRAS"));
+            GLC.listaGramaticaLibreContextoRegla.Add(new GLC_Regla("CODIGO_PRIMA", "ESTRUCTURA_HACER_MIENTRAS"));
+            GLC.listaGramaticaLibreContextoRegla.Add(new GLC_Regla("CODIGO_PRIMA", "ESTRUCTURA_DESDE"));
+            GLC.listaGramaticaLibreContextoRegla.Add(new GLC_Regla("CODIGO_PRIMA", "ESTRUCTURA_LEER_ESCRIBIR"));
+
             GLC.listaGramaticaLibreContextoRegla.Add(new GLC_Regla("CODIGO_PRIMA"));
-            listaNoTerminales.Add("CODIGO_PRIMA");
 
             GLC.listaGramaticaLibreContextoRegla.Add(new GLC_Regla("VARIABLE_ASIGNADA", "ASIGNACION_VARIABLE", ";"));
-            listaNoTerminales.Add("VARIABLE_ASIGNADA");
 
             GLC.listaGramaticaLibreContextoRegla.Add(new GLC_Regla("ASIGNACION_VARIABLE", "ESTRUCTURA_VARIABLE", "ESTRUCTURA_VARIABLE'"));
             //  GLC.listaGramaticaLibreContextoRegla.Add(new GLC_Regla("ESTRUCTURA_VARIABLE'", ",", "ESTRUCTURA_VARIABLE", "ESTRUCTURA_VARIABLE'"));
             GLC.listaGramaticaLibreContextoRegla.Add(new GLC_Regla("ESTRUCTURA_VARIABLE'"));
             GLC.listaGramaticaLibreContextoRegla.Add(new GLC_Regla("ESTRUCTURA_VARIABLE", "Variable", "ASIGNAR"));
-            listaNoTerminales.Add("ESTRUCTURA_VARIABLE");
 
             GLC.listaGramaticaLibreContextoRegla.Add(new GLC_Regla("ASIGNAR", "=", "TIPO_VARIABLE"));
             listaNoTerminales.Add("ASIGNAR");
@@ -115,23 +116,50 @@ namespace IDE.Backend.SegundaFase
             listaNoTerminales.Add("TIPO_VARIABLE");
 
 
+            #region estructura Leer escribir
+
+            GLC.listaGramaticaLibreContextoRegla.Add(new GLC_Regla("ESTRUCTURA_LEER_ESCRIBIR", "TIPO_LEER_ESCRIBIR", "(",")", "BLOQUE_CODIGO"));
+            GLC.listaGramaticaLibreContextoRegla.Add(new GLC_Regla("TIPO_LEER_ESCRIBIR", "leer"));
+            GLC.listaGramaticaLibreContextoRegla.Add(new GLC_Regla("TIPO_LEER_ESCRIBIR", "escribir"));
+
+            #endregion
+
             #region estructura SI
 
             //SI(ASIGNACION_VARIABLE_ESTRUCTURA_SI){lineas de codigo}
-            GLC.listaGramaticaLibreContextoRegla.Add(new GLC_Regla("ESTRUCTURA_SI", "SI", "ASIGNACION_VARIABLE_ESTRUCTURA_CONDICION", "ESTRUCTURA_SI_FINAL"));
-            listaNoTerminales.Add("ESTRUCTURA_SI");
+            GLC.listaGramaticaLibreContextoRegla.Add(new GLC_Regla("ESTRUCTURA_SI", "SI", "ASIGNACION_VARIABLE_ESTRUCTURA_CONDICION", "BLOQUE_CODIGO", "ESTRUCTURA_SINO_SI", "ESTRUCTURA_SINO_SI"));
+            GLC.listaGramaticaLibreContextoRegla.Add(new GLC_Regla("ESTRUCTURA_SINO_SI", "SINO_SI", "ASIGNACION_VARIABLE_ESTRUCTURA_CONDICION", "BLOQUE_CODIGO", "ESTRUCTURA_SINO_SI", "ESTRUCTURA_SINO_SI"));
+            GLC.listaGramaticaLibreContextoRegla.Add(new GLC_Regla("ESTRUCTURA_SINO_SI"));
+            GLC.listaGramaticaLibreContextoRegla.Add(new GLC_Regla("ESTRUCTURA_SINO_SI", "SINO", "BLOQUE_CODIGO"));
+            GLC.listaGramaticaLibreContextoRegla.Add(new GLC_Regla("ESTRUCTURA_SINO_SI"));
+            #endregion
 
-            GLC.listaGramaticaLibreContextoRegla.Add(new GLC_Regla("ASIGNACION_VARIABLE_ESTRUCTURA_CONDICION", "(", "VARIABLE_O_TIPO", "VARIABLE_O_TIPO'", ")"));
-            listaNoTerminales.Add("ASIGNACION_VARIABLE_ESTRUCTURA_CONDICION");
 
+            #region estructura MIENTRAS
 
-            GLC.listaGramaticaLibreContextoRegla.Add(new GLC_Regla("ESTRUCTURA_SI_FINAL", "SINO_SI", "ASIGNACION_VARIABLE_ESTRUCTURA_CONDICION", "ESTRUCTURA_SI_FINAL"));
-            GLC.listaGramaticaLibreContextoRegla.Add(new GLC_Regla("ESTRUCTURA_SI_FINAL", "SINO_SI", "ASIGNACION_VARIABLE_ESTRUCTURA_CONDICION", "ESTRUCTURA_SI_FINAL"));
-            GLC.listaGramaticaLibreContextoRegla.Add(new GLC_Regla("ESTRUCTURA_SI_FINAL", "SINO", "BLOQUE_CODIGO"));
-            GLC.listaGramaticaLibreContextoRegla.Add(new GLC_Regla("ESTRUCTURA_SI_FINAL"));
-            listaNoTerminales.Add("ESTRUCTURA_SI_FINAL");
+            GLC.listaGramaticaLibreContextoRegla.Add(new GLC_Regla("ESTRUCTURA_MIENTRAS", "MIENTRAS", "ASIGNACION_VARIABLE_ESTRUCTURA_CONDICION", "BLOQUE_CODIGO"));
 
             #endregion
+
+            #region estructura HACER_MIENTRAS
+
+            GLC.listaGramaticaLibreContextoRegla.Add(new GLC_Regla("ESTRUCTURA_HACER_MIENTRAS", "HACER", "ASIGNACION_VARIABLE_ESTRUCTURA_CONDICION", "BLOQUE_CODIGO", "MIENTRAS", "ASIGNACION_VARIABLE_ESTRUCTURA_CONDICION"));
+
+            #endregion
+
+            #region estructura HACER_MIENTRAS
+
+            GLC.listaGramaticaLibreContextoRegla.Add(new GLC_Regla("ESTRUCTURA_DESDE", "DESDE", "SENTENCIA_LOGICA", ";", "DESDE", "SENTENCIA_LOGICA","INCREMENTO","Identificador", "BLOQUE_CODIGO"));
+
+            #endregion
+
+            GLC.listaGramaticaLibreContextoRegla.Add(new GLC_Regla("ASIGNACION_VARIABLE_ESTRUCTURA_CONDICION", "(", "SENTENCIA_LOGICA", ")"));
+
+            GLC.listaGramaticaLibreContextoRegla.Add(new GLC_Regla("SENTENCIA_LOGICA", "Identificador", "CONECTOR_LOGICO"));
+            GLC.listaGramaticaLibreContextoRegla.Add(new GLC_Regla("SENTENCIA_LOGICA", "TIPO_VARIABLE", "CONECTOR_LOGICO"));
+            GLC.listaGramaticaLibreContextoRegla.Add(new GLC_Regla("SENTENCIA_LOGICA", "NEGAR", "Identificador"));
+            GLC.listaGramaticaLibreContextoRegla.Add(new GLC_Regla("CONECTOR_LOGICO", "LOGICO", "Identificador"));
+            GLC.listaGramaticaLibreContextoRegla.Add(new GLC_Regla("CONECTOR_LOGICO"));
 
             GLC.listaGramaticaLibreContextoRegla.Add(new GLC_Regla("VARIABLE_O_TIPO", "Variable"));
             GLC.listaGramaticaLibreContextoRegla.Add(new GLC_Regla("VARIABLE_O_TIPO", "TIPO_VARIABLE"));
