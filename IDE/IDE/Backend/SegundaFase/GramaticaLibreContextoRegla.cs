@@ -8,12 +8,12 @@ namespace IDE.Backend.SegundaFase
 {
     class GramaticaLibreContextoRegla
     {
-        public string izquieda { get; set; } = null;
+        public string izquierda { get; set; } = null;
         public IList<string> derecha { get; } = new List<string>();
 
         public GramaticaLibreContextoRegla(string izquieda, IEnumerable<string> derecha)
         {
-            this.izquieda = izquieda;
+            this.izquierda = izquieda;
             if (null != this.derecha) this.derecha = new List<string>(derecha);
         }
 
@@ -27,7 +27,7 @@ namespace IDE.Backend.SegundaFase
         public override string ToString()
         {
             var sb = new StringBuilder();
-            sb.Append(izquieda ?? "");
+            sb.Append(izquierda ?? "");
             sb.Append(" ->");
             var ic = derecha.Count;
             for (var i = 0; i < ic; ++i)

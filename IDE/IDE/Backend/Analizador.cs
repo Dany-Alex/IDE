@@ -61,6 +61,7 @@ namespace IDE
             AnalizadorLL1 = new AnalizadorLL1("E", listaToken.getListaTokenResultado(), listaToken.getListaTokenErrores());
 
             AnalizadorLL1.iniciarGramatica(richTextBox2);
+            setCodigoDot( AnalizadorLL1.getCodigoDot());
  Console.WriteLine( "Analizador ll1");
             AnalizadorLL1.analizar();
                       
@@ -1271,9 +1272,9 @@ namespace IDE
                 estadoAutomataPalabrasReresrvadas = 0;
                 i -= 1;
             }
-            else if ("char" == (LexemaAuxiliarPalabrasReservadas))
+            else if ("caracter" == (LexemaAuxiliarPalabrasReservadas))
             {
-                listaToken.agregarListaTokenResultado(new Token(60, LexemaAuxiliarPalabrasReservadas, numeroLinea, "Palabra Rervada", "char", Color.Green));
+                listaToken.agregarListaTokenResultado(new Token(60, LexemaAuxiliarPalabrasReservadas, numeroLinea, "Palabra Rervada", "caracter", Color.Green));
                 pintar(richTextBox, LexemaAuxiliarPalabrasReservadas, i, Color.Green);
                 LexemaAuxiliarPalabrasReservadas = "";
                 estadoAutomataPalabrasReresrvadas = 0;
@@ -1303,9 +1304,9 @@ namespace IDE
                 estadoAutomataPalabrasReresrvadas = 0;
                 i -= 1;
             }
-            else if ("imprimir" == (LexemaAuxiliarPalabrasReservadas))
+            else if ("escribir" == (LexemaAuxiliarPalabrasReservadas))
             {
-                listaToken.agregarListaTokenResultado(new Token(64, LexemaAuxiliarPalabrasReservadas, numeroLinea, "Palabra Rervada", "imprimir", Color.Green));
+                listaToken.agregarListaTokenResultado(new Token(64, LexemaAuxiliarPalabrasReservadas, numeroLinea, "Palabra Rervada", "escribir", Color.Green));
                 pintar(richTextBox, LexemaAuxiliarPalabrasReservadas, i, Color.Green);
                 LexemaAuxiliarPalabrasReservadas = "";
                 estadoAutomataPalabrasReresrvadas = 0;

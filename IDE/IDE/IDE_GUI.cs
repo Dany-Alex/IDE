@@ -222,41 +222,32 @@ namespace IDE
             manejador.guardarGraphvizComo(saveFileDialog1, analizador.getCodigoDot());
             graficador();
             GenerateGraph(analizador.getCodigoDot());
-            abrirGrafo();
+            
             
         }
 
         string ruta;
         StringBuilder grafo;
-        public void graficador() { ruta = Environment.GetFolderPath(Environment.SpecialFolder.DesktopDirectory); }
+        public void graficador() { ruta = Directory.GetCurrentDirectory(); }
         public void GenerateGraph(string codigoDot)
         {
             
             try
             {
                 grafo = new StringBuilder();
-                string rutaDot = ruta + "\\img\\graph.txt";
-                string salida = ruta + "\\img\\graph1.png";
+                string rutaDot = manejador.getFileNameGraphviz();
+                string salida = ruta + "\\graph1.png";
                 grafo.Append(codigoDot);
                 this.generar(rutaDot, salida);
 
                 MessageBox.Show("ok generar Graph" + rutaDot + " - " + salida);
+                System.Diagnostics.Process.Start(rutaDot);
+                System.Diagnostics.Process.Start(salida);
+
             }
             catch (Exception x) { MessageBox.Show(x.ToString()); }
         }
-        public void abrirGrafo() {
-            if (File.Exists(ruta))
-            {
-                try {
-                    System.Diagnostics.Process.Start(ruta);
-                    MessageBox.Show("ok abrir" + ruta );
 
-                }
-                catch (Exception x){ MessageBox.Show(x.ToString()); }
-            }
-            else { 
-            }
-        }
         public void  generar(string rutaDot, String salidaIMG)
         {
 

@@ -43,6 +43,7 @@
             this.button1 = new System.Windows.Forms.Button();
             this.limpiarCodigoBoton = new System.Windows.Forms.Button();
             this.panel1 = new System.Windows.Forms.Panel();
+            this.buttonGenerarArbol = new System.Windows.Forms.Button();
             this.tabPage2 = new System.Windows.Forms.TabPage();
             this.exportarErrorBoton = new System.Windows.Forms.Button();
             this.dataGridView2 = new System.Windows.Forms.DataGridView();
@@ -60,7 +61,6 @@
             this.backgroundWorker2 = new System.ComponentModel.BackgroundWorker();
             this.autocompleteMenu1 = new AutocompleteMenuNS.AutocompleteMenu();
             this.imageList1 = new System.Windows.Forms.ImageList(this.components);
-            this.buttonGenerarArbol = new System.Windows.Forms.Button();
             this.menuStrip1.SuspendLayout();
             this.panel1.SuspendLayout();
             this.tabPage2.SuspendLayout();
@@ -160,6 +160,17 @@
             this.panel1.Name = "panel1";
             this.panel1.Size = new System.Drawing.Size(146, 317);
             this.panel1.TabIndex = 10;
+            // 
+            // buttonGenerarArbol
+            // 
+            this.buttonGenerarArbol.Location = new System.Drawing.Point(7, 219);
+            this.buttonGenerarArbol.Margin = new System.Windows.Forms.Padding(4);
+            this.buttonGenerarArbol.Name = "buttonGenerarArbol";
+            this.buttonGenerarArbol.Size = new System.Drawing.Size(128, 39);
+            this.buttonGenerarArbol.TabIndex = 4;
+            this.buttonGenerarArbol.Text = "Generar Arbol";
+            this.buttonGenerarArbol.UseVisualStyleBackColor = true;
+            this.buttonGenerarArbol.Click += new System.EventHandler(this.buttonGenerarArbol_Click);
             // 
             // tabPage2
             // 
@@ -327,20 +338,25 @@
             // autocompleteMenu1
             // 
             this.autocompleteMenu1.Colors = ((AutocompleteMenuNS.Colors)(resources.GetObject("autocompleteMenu1.Colors")));
-            this.autocompleteMenu1.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F);
+            this.autocompleteMenu1.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F);
             this.autocompleteMenu1.ImageList = null;
             this.autocompleteMenu1.Items = new string[] {
-        "SI",
-        "SINO",
-        "SINO_SI",
-        "MIENTRAS",
-        "HACER",
-        "DESDE",
-        "HASTA",
-        "INCREMENTO",
+        "SI(){ }",
+        "SINO{ }",
+        "SINO_SI(){ }",
+        "MIENTRAS(){ }",
+        "HACER (){ } MIENTRAS()",
+        "DESDE ; HASTA ; INCREMENTO { }",
         "entero",
+        "cadena",
+        "caracter",
+        "boolean",
         "decimal",
-        "principal"};
+        "principal(){ }",
+        "leer(){ }",
+        "escribir(){ }"};
+            this.autocompleteMenu1.MaximumSize = new System.Drawing.Size(250, 300);
+            this.autocompleteMenu1.MinFragmentLength = 1;
             this.autocompleteMenu1.TargetControlWrapper = null;
             // 
             // imageList1
@@ -348,17 +364,6 @@
             this.imageList1.ColorDepth = System.Windows.Forms.ColorDepth.Depth8Bit;
             this.imageList1.ImageSize = new System.Drawing.Size(16, 16);
             this.imageList1.TransparentColor = System.Drawing.Color.Transparent;
-            // 
-            // buttonGenerarArbol
-            // 
-            this.buttonGenerarArbol.Location = new System.Drawing.Point(7, 219);
-            this.buttonGenerarArbol.Margin = new System.Windows.Forms.Padding(4);
-            this.buttonGenerarArbol.Name = "buttonGenerarArbol";
-            this.buttonGenerarArbol.Size = new System.Drawing.Size(128, 39);
-            this.buttonGenerarArbol.TabIndex = 4;
-            this.buttonGenerarArbol.Text = "Generar Arbol";
-            this.buttonGenerarArbol.UseVisualStyleBackColor = true;
-            this.buttonGenerarArbol.Click += new System.EventHandler(this.buttonGenerarArbol_Click);
             // 
             // IDE
             // 

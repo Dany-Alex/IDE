@@ -55,10 +55,12 @@
     <Compile Include="Backend\Analizador.cs" />
     <Compile Include="Backend\Estado.cs" />
     <Compile Include="Backend\SegundaFase\AnalizadorLL1.cs" />
+    <Compile Include="Backend\SegundaFase\Arbol.cs" />
     <Compile Include="Backend\SegundaFase\GLC.cs" />
     <Compile Include="Backend\SegundaFase\GLC_Regla.cs" />
     <Compile Include="Backend\SegundaFase\GramaticaLibreContexto.cs" />
     <Compile Include="Backend\SegundaFase\GramaticaLibreContextoRegla.cs" />
+    <Compile Include="Backend\SegundaFase\NodoArbol.cs" />
     <Compile Include="IDE_GUI.cs">
       <SubType>Form</SubType>
     </Compile>

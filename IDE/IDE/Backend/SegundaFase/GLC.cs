@@ -18,5 +18,8 @@ namespace IDE.Backend.SegundaFase
                 sb.AppendLine(listaGramaticaLibreContextoRegla[i].ToString());
             return sb.ToString();
         }
+
+
+
     }
 }

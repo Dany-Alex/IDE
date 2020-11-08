@@ -9,7 +9,7 @@ namespace IDE.Backend.SegundaFase
     class GramaticaLibreContexto
     {
 
-        String simboloInicial;
+        String simboloInicial=null;
 
         /*
         public string getSimboloInicial()
@@ -42,8 +42,8 @@ namespace IDE.Backend.SegundaFase
             for (int i = 0; i < ic; ++i)
             {
                 var regla = listaGramaticaLibreContextoRegla[i];
-                if (!resultado.Contains(regla.izquieda))
-                    resultado.Add(regla.izquieda);
+                if (!resultado.Contains(regla.izquierda))
+                    resultado.Add(regla.izquierda);
             }
             return resultado;
         }
@@ -55,7 +55,7 @@ namespace IDE.Backend.SegundaFase
             var simboloNoTerminal = new HashSet<string>();
             int ic = listaGramaticaLibreContextoRegla.Count;
             for (int i = 0; i < ic; ++i)
-                simboloNoTerminal.Add(listaGramaticaLibreContextoRegla[i].izquieda);
+                simboloNoTerminal.Add(listaGramaticaLibreContextoRegla[i].izquierda);
 
             // simplemente escanea las reglas en busca de cualquier cosa que no sea una terminal
             for (int i = 0; i < ic; ++i)
@@ -90,7 +90,7 @@ namespace IDE.Backend.SegundaFase
             // gather the non-terminals into a collection
             var nts = new HashSet<string>();
             for (int ic = listaGramaticaLibreContextoRegla.Count, i = 0; i < ic; ++i)
-                nts.Add(listaGramaticaLibreContextoRegla[i].izquieda);
+                nts.Add(listaGramaticaLibreContextoRegla[i].izquierda);
             var seen = new HashSet<string>();
             // just scan through the rules looking for anything that isn't a non-terminal
             for (int ic = listaGramaticaLibreContextoRegla.Count, i = 0; i < ic; ++i)
@@ -116,8 +116,8 @@ namespace IDE.Backend.SegundaFase
             for (int ic = listaGramaticaLibreContextoRegla.Count, i = 0; i < ic; ++i)
             {
                 var regla = listaGramaticaLibreContextoRegla[i];
-                if (visto.Add(regla.izquieda))
-                    yield return regla.izquieda;
+                if (visto.Add(regla.izquierda))
+                    yield return regla.izquierda;
             }
         }
 
@@ -138,10 +138,10 @@ namespace IDE.Backend.SegundaFase
             {
                 var rule = listaGramaticaLibreContextoRegla[i];
                 ICollection<(GramaticaLibreContextoRegla regla, string simbolo)> col;
-                if (!resultado.TryGetValue(rule.izquieda, out col))
+                if (!resultado.TryGetValue(rule.izquierda, out col))
                 {
                     col = new HashSet<(GramaticaLibreContextoRegla regla, string simbolo)>();
-                    resultado.Add(rule.izquieda, col);
+                    resultado.Add(rule.izquierda, col);
                 }
                 if (!rule.esNull)
                 {
@@ -189,7 +189,7 @@ namespace IDE.Backend.SegundaFase
 
         public IDictionary<string, ICollection<string>> llenarSiguentes(IDictionary<string, ICollection<string>> resultado = null)
         {
-            if (null == resultado)
+            if ( resultado==null)
                 resultado = new Dictionary<string, ICollection<string>>();
 
             // necesitaremos la tabla de primeros
@@ -226,8 +226,8 @@ namespace IDE.Backend.SegundaFase
                                 }
                                 else
                                 {
-                                    if (!col.Contains(f.regla.izquieda))
-                                        col.Add(f.regla.izquieda);
+                                    if (!col.Contains(f.regla.izquierda))
+                                        col.Add(f.regla.izquierda);
                                 }
                             }
                         }
@@ -241,21 +241,21 @@ namespace IDE.Backend.SegundaFase
                             col = new HashSet<string>();
                             resultado.Add(rr, col);
                         }
-                        if (!col.Contains(rule.izquieda))
-                            col.Add(rule.izquieda);
+                        if (!col.Contains(rule.izquierda))
+                            col.Add(rule.izquierda);
                     }
                 }
                 else //regla es nula
                 {
                     // lo que sigue es el propio no terminal izquierdo de la regla
-                    if (!resultado.TryGetValue(rule.izquieda, out col))
+                    if (!resultado.TryGetValue(rule.izquierda, out col))
                     {
                         col = new HashSet<string>();
-                        resultado.Add(rule.izquieda, col);
+                        resultado.Add(rule.izquierda, col);
                     }
 
-                    if (!col.Contains(rule.izquieda))
-                        col.Add(rule.izquieda);
+                    if (!col.Contains(rule.izquierda))
+                        col.Add(rule.izquierda);
                 }
             }
 
