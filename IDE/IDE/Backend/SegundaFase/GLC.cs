@@ -8,6 +8,9 @@ namespace IDE.Backend.SegundaFase
 {
     class GLC
     {
+        /// <summary>
+        /// lista de reglas de la gramatica 
+        /// </summary>
         public List<GLC_Regla> listaGramaticaLibreContextoRegla { get; } = new List<GLC_Regla>();
 
         public override string ToString()
@@ -18,6 +21,12 @@ namespace IDE.Backend.SegundaFase
             return sb.ToString();
         }
 
+
+        /// <summary>
+        /// hace una lista de todos los no terminales de la gramatica
+        /// </summary>
+        /// <param name="resultado">recibe un lista, que otro metodo crea y se la envia</param>
+        /// <returns></returns>
         public List<string> llenarNoTerminales(List<string> resultado = null)
         {
             if (null == resultado) resultado = new List<string>();
@@ -32,6 +41,11 @@ namespace IDE.Backend.SegundaFase
             return resultado;
         }
 
+        /// <summary>
+        /// hace una lista de todos los terminales de la gramatica
+        /// </summary>
+        /// <param name="resultado">recibe un lista, que otro metodo crea y se la envia</param>
+        /// <returns></returns>
         public List<string> llenarTerminales(List<string> resultado = null)
         {
             if (null == resultado) resultado = new List<string>();
@@ -54,14 +68,19 @@ namespace IDE.Backend.SegundaFase
                         resultado.Add(reglaDrerecha);
                 }
             }
-            // add FIN DE LA ENTRADA (End Of Stream) y error
-            if (!resultado.Contains("#EOS"))
-                resultado.Add("#EOS");
+            // agrega el FIN DE LA ENTRADA (End Of Stream) y error
+            if (!resultado.Contains("$"))
+                resultado.Add("$");
             if (!resultado.Contains("#ERROR"))
                 resultado.Add("#ERROR");
             return resultado;
         }
 
+        /// <summary>
+        /// crea una lista de strings y se los envia a los metodos llenarTerminal y llenarNoTerminal  
+        /// </summary>
+        /// <param name="resultado"></param>
+        /// <returns></returns>
         public List<string> llenarSimbolos(List<string> resultado = null)
         {
             if (null == resultado)
@@ -71,6 +90,10 @@ namespace IDE.Backend.SegundaFase
             return resultado;
         }
 
+        /// <summary>
+        ///
+        /// </summary>
+        /// <returns>devulve un iterador de los terminales</returns>
         IEnumerable<string> enumTerminales()
         {
             // reúne los no terminales en una colección
@@ -94,6 +117,10 @@ namespace IDE.Backend.SegundaFase
             yield return "#ERROR";
         }
 
+        /// <summary>
+        ///
+        /// </summary>
+        /// <returns>devulve un iterador de los no terminales</returns>
         IEnumerable<string> enumNoTerminales()
         {
             var visto = new HashSet<string>();
@@ -107,6 +134,11 @@ namespace IDE.Backend.SegundaFase
             }
         }
 
+        /// <summary>
+        /// hace una coleccion de los primeros de la gramatica
+        /// </summary>
+        /// <param name="resultado"></param>
+        /// <returns></returns>
         public IDictionary<string, ICollection<(GLC_Regla regla, string simbolo)>> llenarPrimeros(IDictionary<string, ICollection<(GLC_Regla regla, string simbolo)>> resultado = null)
         {
             if (null == resultado)
@@ -166,8 +198,14 @@ namespace IDE.Backend.SegundaFase
             return resultado;
         }
 
+        /// <summary>
+        /// verifica si es un no terminal
+        /// </summary>
+        /// <param name="symbol">recibe un simbolo y verifica si es un no terminal</param>
+        /// <returns></returns>
         public bool esNoTerminal(string symbol)
         {
+            //verifica si es un no terminal
             foreach (var nt in enumNoTerminales())
                 if (Equals(nt, symbol))
                     return true;
@@ -191,10 +229,12 @@ namespace IDE.Backend.SegundaFase
         }
 
         string simboloInicial = null;
-
+        /// <summary>
+        /// como su nombe lo indica, es el simbolo con el cual nuestra gramatica inicia
+        /// </summary>
         public string simboloInicialMetodo
         {
-
+            
             get
             {
                 if (0 < listaGramaticaLibreContextoRegla.Count && string.IsNullOrEmpty(simboloInicial))
@@ -205,6 +245,11 @@ namespace IDE.Backend.SegundaFase
 
         }
 
+        /// <summary>
+        /// hace una coleccion de los siguentes de la gramatica
+        /// </summary>
+        /// <param name="resultado"></param>
+        /// <returns></returns>
         public IDictionary<string, ICollection<string>> llenarSiguentes(IDictionary<string, ICollection<string>> resultado = null)
         {
             if (resultado == null)
@@ -304,6 +349,10 @@ namespace IDE.Backend.SegundaFase
             return resultado;
         }
 
+        /// <summary>
+        /// es una coleccion que sirve para saber que produccion es la que vamos a utilizar dependiendo del simbolo que analicemos
+        /// </summary>
+        /// <returns></returns>
         public IDictionary<string, IDictionary<string, GLC_Regla>> tablaAnalizar()
         {
             // Aquí llenamos el diccionario externo con un no terminal para cada clave

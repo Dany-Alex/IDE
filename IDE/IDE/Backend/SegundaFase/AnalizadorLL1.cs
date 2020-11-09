@@ -79,7 +79,8 @@ namespace IDE.Backend.SegundaFase
             return this.pila;
         }
 
-        public void gramaticaEnCodigo() {
+        public void gramaticaEnCodigo()
+        {
             GLC.listaGramaticaLibreContextoRegla.Add(new GLC_Regla("E", "principal", "(", ")", "BLOQUE_CODIGO"));
             GLC.listaGramaticaLibreContextoRegla.Add(new GLC_Regla("BLOQUE_CODIGO", "{", "CODIGO", "}"));
 
@@ -182,7 +183,7 @@ namespace IDE.Backend.SegundaFase
             GLC.listaGramaticaLibreContextoRegla.Add(new GLC_Regla("CODIGO"));
 
 
-            GLC.listaGramaticaLibreContextoRegla.Add(new GLC_Regla("VARIABLE_ASIGNADA", "TIPO_VARIABLE","46", "ASIGNAR", "11"));
+            GLC.listaGramaticaLibreContextoRegla.Add(new GLC_Regla("VARIABLE_ASIGNADA", "TIPO_VARIABLE", "46", "ASIGNAR", "11"));
 
             GLC.listaGramaticaLibreContextoRegla.Add(new GLC_Regla("ASIGNAR", "23", "TIPO_DATO", "ASIGNAR"));
             GLC.listaGramaticaLibreContextoRegla.Add(new GLC_Regla("ASIGNAR", ",", "46", "ASIGNAR"));
@@ -234,7 +235,7 @@ namespace IDE.Backend.SegundaFase
 
             #region estructura HACER_MIENTRAS
 
-            GLC.listaGramaticaLibreContextoRegla.Add(new GLC_Regla("ESTRUCTURA_DESDE", "54", "SENTENCIA_LOGICA", "11", "55", "SENTENCIA_LOGICA","11", "56", "1", "BLOQUE_CODIGO"));
+            GLC.listaGramaticaLibreContextoRegla.Add(new GLC_Regla("ESTRUCTURA_DESDE", "54", "SENTENCIA_LOGICA", "11", "55", "SENTENCIA_LOGICA", "11", "56", "1", "BLOQUE_CODIGO"));
 
             #endregion
 
@@ -255,7 +256,7 @@ namespace IDE.Backend.SegundaFase
             GLC.listaGramaticaLibreContextoRegla.Add(new GLC_Regla("LOGICO", "20"));
             GLC.listaGramaticaLibreContextoRegla.Add(new GLC_Regla("LOGICO", "21"));
             GLC.listaGramaticaLibreContextoRegla.Add(new GLC_Regla("LOGICO", "25"));
-            GLC.listaGramaticaLibreContextoRegla.Add(new GLC_Regla("LOGICO", "26"));
+            GLC.listaGramaticaLibreContextoRegla.Add(new GLC_Regla("LOGICO", "28"));
 
 
             Console.WriteLine(" paso 1 - Gramatica Libre Contexto");
@@ -305,6 +306,10 @@ namespace IDE.Backend.SegundaFase
         string s = null;
 
         int tokenActual = 0, idActual = 0;
+        /// <summary>
+        /// se encarga del analisis sintactico por medio de los tokes que fueron encontrados por el analizador lexico, asi como tambien en este metodo se trabaja con el autamata de pila
+        /// </summary>
+        /// <returns></returns>
         public bool analizar()
         {
 
@@ -329,7 +334,7 @@ namespace IDE.Backend.SegundaFase
             }
 
 
-            while (pila.Count() > 0)
+            while (pila.Count>0)
             {
                 simboloActual = listaTokenResultado[tokenActual].Simbolo;
                 idActual = listaTokenResultado[tokenActual].Id;
@@ -350,51 +355,43 @@ namespace IDE.Backend.SegundaFase
                         Console.WriteLine("Simbolo actual: " + simboloActual + "  i: " + tokenActual);
                         Console.WriteLine("Hice pop de terminal: " + pila.Pop());
                         imprimirPila();
-                        
+
                         tokenActual++;
-                        
+
                         Console.WriteLine("Simbolo actual: " + simboloActual + "  i: " + tokenActual);
                         imprimirPila();
                         realizado = true;
                     }
 
-                    //analisis(verPila);
-
-
                     // no terminal
 
-                IDictionary<string, GLC_Regla> d;
-				if(tablaAnalisis.TryGetValue(verPila, out d))
-				{
-					GLC_Regla rule;
-					if(d.TryGetValue(idActual.ToString(), out rule))
-					{
-						Console.WriteLine("Hice pop no terminal de:" + pila.Pop());
-						imprimirPila();
-
+                    IDictionary<string, GLC_Regla> d;
+                    if (tablaAnalisis.TryGetValue(verPila, out d))
+                    {
+                        GLC_Regla rule;
+                        if (d.TryGetValue(idActual.ToString(), out rule))
+                        {
+                            Console.WriteLine("Hice pop no terminal de:" + pila.Pop());
+                            imprimirPila();
                             // mete el marcador final no terminal para más tarde
                             //pila.Push(string.Concat("$", verPila));
 
                             // mete la derivacion en orden inverso
                             var ic = rule.derecha.Count;
-						for (var i = ic - 1; 0 <= i;--i)
-						{
-							verPila = rule.derecha[i];
-							pila.Push(verPila);
-							imprimirPila();
-
-						}
-
-
-                            realizado = true;
-					}
-
+                            for (var i = ic - 1; 0 <= i; --i)
+                            {
+                                verPila = rule.derecha[i];
+                                pila.Push(verPila);
+                                imprimirPila();
+                            }
+                            //   realizado = true;
+                        }
                         realizado = true;
-				}
+                    }
 
-                   
+
                 }
-               // if (!simboloActual.Equals(pila.Peek())) {  Console.WriteLine("Hice pop de While if: " + pila.Pop()); }
+                // if (!simboloActual.Equals(pila.Peek())) {  Console.WriteLine("Hice pop de While if: " + pila.Pop()); }
 
             }
 
@@ -457,6 +454,13 @@ namespace IDE.Backend.SegundaFase
                 // realizado = true;
             }
         }
+
+
+        /// <summary>
+        /// este metodo se encarga de crear el codigo de graphviz
+        /// </summary>
+        /// <param name="nodo">recibe una lista de reglas gramaticales libres de contexto</param>
+        /// <returns></returns>
         public string ToDotGraph(List<GLC_Regla> nodo)
         {
             StringBuilder b = new StringBuilder();
@@ -472,18 +476,23 @@ namespace IDE.Backend.SegundaFase
             return b.ToString();
         }
 
-        int  correlativo;
+        int correlativo;
         string raiz = "E";
-        public  string ToDot(GLC_Regla nodo)
+        /// <summary>
+        /// este metodo se encarga de crear el interior del codigo de graphviz
+        /// </summary>
+        /// <param name="nodo">recibe un regla gramatical libre de contexto</param>
+        /// <returns></returns>
+        public string ToDot(GLC_Regla nodo)
         {
-           
+
             StringBuilder b = new StringBuilder();
             if (nodo.izquierda != null)
             {
-                
+
                 for (int j = 0; j < nodo.derecha.Count; j++)
                 {
-                  
+
                     raiz = nodo.derecha[j];
                     b.AppendFormat(" \"{0}\"->\"{1}\"{2}", nodo.izquierda.ToString(), raiz, Environment.NewLine);
 

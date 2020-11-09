@@ -3,7 +3,7 @@ principal() {
 	SI(!falso){
  		_a = 770;
 	}
-	SINO_SI( _c > _b && verdadero){
+	SINO_SI( _c > _b ){
  		_b = 50;
 
 		 _v = -51.2;
@@ -17,6 +17,7 @@ principal() {
 	}
 
 }
+
 
 
 
