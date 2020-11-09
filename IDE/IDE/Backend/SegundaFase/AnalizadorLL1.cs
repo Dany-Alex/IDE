@@ -78,11 +78,8 @@ namespace IDE.Backend.SegundaFase
         {
             return this.pila;
         }
-        public void iniciarGramatica(RichTextBox richTextBox)
-        {
 
-
-
+        public void gramaticaEnCodigo() {
             GLC.listaGramaticaLibreContextoRegla.Add(new GLC_Regla("E", "principal", "(", ")", "BLOQUE_CODIGO"));
             GLC.listaGramaticaLibreContextoRegla.Add(new GLC_Regla("BLOQUE_CODIGO", "{", "CODIGO", "}"));
 
@@ -95,7 +92,7 @@ namespace IDE.Backend.SegundaFase
             GLC.listaGramaticaLibreContextoRegla.Add(new GLC_Regla("CODIGO"));
 
 
-            GLC.listaGramaticaLibreContextoRegla.Add(new GLC_Regla("VARIABLE_ASIGNADA", "TIPO_VARIABLE","Variable", "ASIGNAR", ";"));
+            GLC.listaGramaticaLibreContextoRegla.Add(new GLC_Regla("VARIABLE_ASIGNADA", "TIPO_VARIABLE", "Variable", "ASIGNAR", ";"));
 
             GLC.listaGramaticaLibreContextoRegla.Add(new GLC_Regla("ASIGNAR", "=", "TIPO_DATO", "ASIGNAR"));
             GLC.listaGramaticaLibreContextoRegla.Add(new GLC_Regla("ASIGNAR", ",", "Variable", "ASIGNAR"));
@@ -169,6 +166,96 @@ namespace IDE.Backend.SegundaFase
             GLC.listaGramaticaLibreContextoRegla.Add(new GLC_Regla("LOGICO", "<="));
             GLC.listaGramaticaLibreContextoRegla.Add(new GLC_Regla("LOGICO", ">"));
             GLC.listaGramaticaLibreContextoRegla.Add(new GLC_Regla("LOGICO", "<"));
+        }
+
+        public void iniciarGramatica(RichTextBox richTextBox)
+        {
+            GLC.listaGramaticaLibreContextoRegla.Add(new GLC_Regla("E", "62", "12", "13", "BLOQUE_CODIGO"));
+            GLC.listaGramaticaLibreContextoRegla.Add(new GLC_Regla("BLOQUE_CODIGO", "14", "CODIGO", "15"));
+
+            GLC.listaGramaticaLibreContextoRegla.Add(new GLC_Regla("CODIGO", "VARIABLE_ASIGNADA", "CODIGO"));
+            GLC.listaGramaticaLibreContextoRegla.Add(new GLC_Regla("CODIGO", "ESTRUCTURA_SI", "CODIGO"));
+            GLC.listaGramaticaLibreContextoRegla.Add(new GLC_Regla("CODIGO", "ESTRUCTURA_MIENTRAS", "CODIGO"));
+            GLC.listaGramaticaLibreContextoRegla.Add(new GLC_Regla("CODIGO", "ESTRUCTURA_HACER_MIENTRAS", "CODIGO"));
+            GLC.listaGramaticaLibreContextoRegla.Add(new GLC_Regla("CODIGO", "ESTRUCTURA_DESDE", "CODIGO"));
+            GLC.listaGramaticaLibreContextoRegla.Add(new GLC_Regla("CODIGO", "ESTRUCTURA_LEER_ESCRIBIR", "CODIGO"));
+            GLC.listaGramaticaLibreContextoRegla.Add(new GLC_Regla("CODIGO"));
+
+
+            GLC.listaGramaticaLibreContextoRegla.Add(new GLC_Regla("VARIABLE_ASIGNADA", "TIPO_VARIABLE","46", "ASIGNAR", "11"));
+
+            GLC.listaGramaticaLibreContextoRegla.Add(new GLC_Regla("ASIGNAR", "23", "TIPO_DATO", "ASIGNAR"));
+            GLC.listaGramaticaLibreContextoRegla.Add(new GLC_Regla("ASIGNAR", ",", "46", "ASIGNAR"));
+            GLC.listaGramaticaLibreContextoRegla.Add(new GLC_Regla("ASIGNAR"));
+
+            GLC.listaGramaticaLibreContextoRegla.Add(new GLC_Regla("TIPO_VARIABLE", "57"));
+            GLC.listaGramaticaLibreContextoRegla.Add(new GLC_Regla("TIPO_VARIABLE", "58"));
+            GLC.listaGramaticaLibreContextoRegla.Add(new GLC_Regla("TIPO_VARIABLE", "61"));
+            GLC.listaGramaticaLibreContextoRegla.Add(new GLC_Regla("TIPO_VARIABLE", "60"));
+            GLC.listaGramaticaLibreContextoRegla.Add(new GLC_Regla("TIPO_VARIABLE", "59"));
+
+            GLC.listaGramaticaLibreContextoRegla.Add(new GLC_Regla("TIPO_DATO", "1"));
+            GLC.listaGramaticaLibreContextoRegla.Add(new GLC_Regla("TIPO_DATO", "41"));
+            GLC.listaGramaticaLibreContextoRegla.Add(new GLC_Regla("TIPO_DATO", "48"));
+            GLC.listaGramaticaLibreContextoRegla.Add(new GLC_Regla("TIPO_DATO", "44"));
+            GLC.listaGramaticaLibreContextoRegla.Add(new GLC_Regla("TIPO_DATO", "4"));
+
+
+            #region estructura Leer escribir
+
+            GLC.listaGramaticaLibreContextoRegla.Add(new GLC_Regla("ESTRUCTURA_LEER_ESCRIBIR", "TIPO_LEER_ESCRIBIR", "12", "13", "BLOQUE_CODIGO"));
+            GLC.listaGramaticaLibreContextoRegla.Add(new GLC_Regla("TIPO_LEER_ESCRIBIR", "63"));
+            GLC.listaGramaticaLibreContextoRegla.Add(new GLC_Regla("TIPO_LEER_ESCRIBIR", "64"));
+
+            #endregion
+
+            #region estructura SI
+
+            //SI(ASIGNACION_VARIABLE_ESTRUCTURA_SI){lineas de codigo}
+            GLC.listaGramaticaLibreContextoRegla.Add(new GLC_Regla("ESTRUCTURA_SI", "49", "ASIGNACION_VARIABLE_ESTRUCTURA_CONDICION", "BLOQUE_CODIGO", "ESTRUCTURA_SINO_SI", "ESTRUCTURA_SINO"));
+            GLC.listaGramaticaLibreContextoRegla.Add(new GLC_Regla("ESTRUCTURA_SINO_SI", "51", "ASIGNACION_VARIABLE_ESTRUCTURA_CONDICION", "BLOQUE_CODIGO", "ESTRUCTURA_SINO_SI", "ESTRUCTURA_SINO"));
+            GLC.listaGramaticaLibreContextoRegla.Add(new GLC_Regla("ESTRUCTURA_SINO_SI"));
+            GLC.listaGramaticaLibreContextoRegla.Add(new GLC_Regla("ESTRUCTURA_SINO", "50", "BLOQUE_CODIGO"));
+            GLC.listaGramaticaLibreContextoRegla.Add(new GLC_Regla("ESTRUCTURA_SINO"));
+            #endregion
+
+
+            #region estructura MIENTRAS
+
+            GLC.listaGramaticaLibreContextoRegla.Add(new GLC_Regla("ESTRUCTURA_MIENTRAS", "52", "ASIGNACION_VARIABLE_ESTRUCTURA_CONDICION", "BLOQUE_CODIGO"));
+
+            #endregion
+
+            #region estructura HACER_MIENTRAS
+
+            GLC.listaGramaticaLibreContextoRegla.Add(new GLC_Regla("ESTRUCTURA_HACER_MIENTRAS", "53", "ASIGNACION_VARIABLE_ESTRUCTURA_CONDICION", "BLOQUE_CODIGO", "52", "ASIGNACION_VARIABLE_ESTRUCTURA_CONDICION"));
+
+            #endregion
+
+            #region estructura HACER_MIENTRAS
+
+            GLC.listaGramaticaLibreContextoRegla.Add(new GLC_Regla("ESTRUCTURA_DESDE", "54", "SENTENCIA_LOGICA", "11", "55", "SENTENCIA_LOGICA","11", "56", "1", "BLOQUE_CODIGO"));
+
+            #endregion
+
+            GLC.listaGramaticaLibreContextoRegla.Add(new GLC_Regla("ASIGNACION_VARIABLE_ESTRUCTURA_CONDICION", "12", "SENTENCIA_LOGICA", "13"));
+
+            GLC.listaGramaticaLibreContextoRegla.Add(new GLC_Regla("SENTENCIA_LOGICA", "TIPO_DATO", "CONECTOR_LOGICO"));
+            GLC.listaGramaticaLibreContextoRegla.Add(new GLC_Regla("SENTENCIA_LOGICA", "TIPO_VARIABLE", "CONECTOR_LOGICO"));
+            GLC.listaGramaticaLibreContextoRegla.Add(new GLC_Regla("SENTENCIA_LOGICA", "NEGAR", "TIPO_DATO"));
+
+            GLC.listaGramaticaLibreContextoRegla.Add(new GLC_Regla("CONECTOR_LOGICO", "LOGICO", "TIPO_DATO"));
+            GLC.listaGramaticaLibreContextoRegla.Add(new GLC_Regla("CONECTOR_LOGICO"));
+
+            GLC.listaGramaticaLibreContextoRegla.Add(new GLC_Regla("NEGAR", "26"));
+            GLC.listaGramaticaLibreContextoRegla.Add(new GLC_Regla("NEGAR"));
+
+            GLC.listaGramaticaLibreContextoRegla.Add(new GLC_Regla("LOGICO", "17"));
+            GLC.listaGramaticaLibreContextoRegla.Add(new GLC_Regla("LOGICO", "19"));
+            GLC.listaGramaticaLibreContextoRegla.Add(new GLC_Regla("LOGICO", "20"));
+            GLC.listaGramaticaLibreContextoRegla.Add(new GLC_Regla("LOGICO", "21"));
+            GLC.listaGramaticaLibreContextoRegla.Add(new GLC_Regla("LOGICO", "25"));
+            GLC.listaGramaticaLibreContextoRegla.Add(new GLC_Regla("LOGICO", "26"));
 
 
             Console.WriteLine(" paso 1 - Gramatica Libre Contexto");
@@ -245,6 +332,8 @@ namespace IDE.Backend.SegundaFase
             while (pila.Count() > 0)
             {
                 simboloActual = listaTokenResultado[tokenActual].Simbolo;
+                idActual = listaTokenResultado[tokenActual].Id;
+
                 if (0 < pila.Count)
                 {
                     var verPila = pila.Peek();
@@ -256,7 +345,7 @@ namespace IDE.Backend.SegundaFase
                     }
 
                     //terminal
-                    if (verPila == simboloActual)
+                    if (verPila == idActual.ToString())
                     {
                         Console.WriteLine("Simbolo actual: " + simboloActual + "  i: " + tokenActual);
                         Console.WriteLine("Hice pop de terminal: " + pila.Pop());
@@ -278,14 +367,13 @@ namespace IDE.Backend.SegundaFase
 				if(tablaAnalisis.TryGetValue(verPila, out d))
 				{
 					GLC_Regla rule;
-					if(d.TryGetValue(simboloActual, out rule))
+					if(d.TryGetValue(idActual.ToString(), out rule))
 					{
 						Console.WriteLine("Hice pop no terminal de:" + pila.Pop());
 						imprimirPila();
 
                             // mete el marcador final no terminal para más tarde
                             //pila.Push(string.Concat("$", verPila));
-
 
                             // mete la derivacion en orden inverso
                             var ic = rule.derecha.Count;
