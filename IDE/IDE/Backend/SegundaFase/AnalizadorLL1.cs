@@ -45,6 +45,7 @@ namespace IDE.Backend.SegundaFase
 
 
         private List<Token> listaTokenResultado = new List<Token>();
+        IDictionary<string, IDictionary<string, GLC_Regla>> tablaAnalisis;
 
         private List<string> listaNoTerminales = new List<string>();
         Stack<string> pila;
@@ -85,17 +86,13 @@ namespace IDE.Backend.SegundaFase
             GLC.listaGramaticaLibreContextoRegla.Add(new GLC_Regla("E", "principal", "(", ")", "BLOQUE_CODIGO"));
             GLC.listaGramaticaLibreContextoRegla.Add(new GLC_Regla("BLOQUE_CODIGO", "{", "CODIGO", "}"));
 
-            GLC.listaGramaticaLibreContextoRegla.Add(new GLC_Regla("CODIGO", "CODIGO_PRIMA"));
+            GLC.listaGramaticaLibreContextoRegla.Add(new GLC_Regla("CODIGO", "VARIABLE_ASIGNADA", "CODIGO"));
+            GLC.listaGramaticaLibreContextoRegla.Add(new GLC_Regla("CODIGO", "ESTRUCTURA_SI", "CODIGO"));
+            GLC.listaGramaticaLibreContextoRegla.Add(new GLC_Regla("CODIGO", "ESTRUCTURA_MIENTRAS", "CODIGO"));
+            GLC.listaGramaticaLibreContextoRegla.Add(new GLC_Regla("CODIGO", "ESTRUCTURA_HACER_MIENTRAS", "CODIGO"));
+            GLC.listaGramaticaLibreContextoRegla.Add(new GLC_Regla("CODIGO", "ESTRUCTURA_DESDE", "CODIGO"));
+            GLC.listaGramaticaLibreContextoRegla.Add(new GLC_Regla("CODIGO", "ESTRUCTURA_LEER_ESCRIBIR", "CODIGO"));
             GLC.listaGramaticaLibreContextoRegla.Add(new GLC_Regla("CODIGO"));
-
-            GLC.listaGramaticaLibreContextoRegla.Add(new GLC_Regla("CODIGO_PRIMA", "VARIABLE_ASIGNADA"));
-            GLC.listaGramaticaLibreContextoRegla.Add(new GLC_Regla("CODIGO_PRIMA", "ESTRUCTURA_SI"));
-            GLC.listaGramaticaLibreContextoRegla.Add(new GLC_Regla("CODIGO_PRIMA", "ESTRUCTURA_MIENTRAS"));
-            GLC.listaGramaticaLibreContextoRegla.Add(new GLC_Regla("CODIGO_PRIMA", "ESTRUCTURA_HACER_MIENTRAS"));
-            GLC.listaGramaticaLibreContextoRegla.Add(new GLC_Regla("CODIGO_PRIMA", "ESTRUCTURA_DESDE"));
-            GLC.listaGramaticaLibreContextoRegla.Add(new GLC_Regla("CODIGO_PRIMA", "ESTRUCTURA_LEER_ESCRIBIR"));
-            GLC.listaGramaticaLibreContextoRegla.Add(new GLC_Regla("CODIGO_PRIMA", "CODIGO"));
-            GLC.listaGramaticaLibreContextoRegla.Add(new GLC_Regla("CODIGO_PRIMA"));
 
 
             GLC.listaGramaticaLibreContextoRegla.Add(new GLC_Regla("VARIABLE_ASIGNADA", "TIPO_VARIABLE","Variable", "ASIGNAR", ";"));
@@ -104,17 +101,17 @@ namespace IDE.Backend.SegundaFase
             GLC.listaGramaticaLibreContextoRegla.Add(new GLC_Regla("ASIGNAR", ",", "Variable", "ASIGNAR"));
             GLC.listaGramaticaLibreContextoRegla.Add(new GLC_Regla("ASIGNAR"));
 
-            GLC.listaGramaticaLibreContextoRegla.Add(new GLC_Regla("TIPO_VARIABLE", "Entero"));
-            GLC.listaGramaticaLibreContextoRegla.Add(new GLC_Regla("TIPO_VARIABLE", "Cadena"));
-            GLC.listaGramaticaLibreContextoRegla.Add(new GLC_Regla("TIPO_VARIABLE", "Boolean"));
-            GLC.listaGramaticaLibreContextoRegla.Add(new GLC_Regla("TIPO_VARIABLE", "Caracter"));
-            GLC.listaGramaticaLibreContextoRegla.Add(new GLC_Regla("TIPO_VARIABLE", "Decimal"));
+            GLC.listaGramaticaLibreContextoRegla.Add(new GLC_Regla("TIPO_VARIABLE", "57Entero"));
+            GLC.listaGramaticaLibreContextoRegla.Add(new GLC_Regla("TIPO_VARIABLE", "58Cadena"));
+            GLC.listaGramaticaLibreContextoRegla.Add(new GLC_Regla("TIPO_VARIABLE", "61Boolean"));
+            GLC.listaGramaticaLibreContextoRegla.Add(new GLC_Regla("TIPO_VARIABLE", "60Caracter"));
+            GLC.listaGramaticaLibreContextoRegla.Add(new GLC_Regla("TIPO_VARIABLE", "59Decimal"));
 
-            GLC.listaGramaticaLibreContextoRegla.Add(new GLC_Regla("TIPO_DATO", "Entero"));
-            GLC.listaGramaticaLibreContextoRegla.Add(new GLC_Regla("TIPO_DATO", "Cadena"));
-            GLC.listaGramaticaLibreContextoRegla.Add(new GLC_Regla("TIPO_DATO", "Boolean"));
-            GLC.listaGramaticaLibreContextoRegla.Add(new GLC_Regla("TIPO_DATO", "Caracter"));
-            GLC.listaGramaticaLibreContextoRegla.Add(new GLC_Regla("TIPO_DATO", "Decimal"));
+            GLC.listaGramaticaLibreContextoRegla.Add(new GLC_Regla("TIPO_DATO", "1Entero"));
+            GLC.listaGramaticaLibreContextoRegla.Add(new GLC_Regla("TIPO_DATO", "41Cadena"));
+            GLC.listaGramaticaLibreContextoRegla.Add(new GLC_Regla("TIPO_DATO", "48Boolean"));
+            GLC.listaGramaticaLibreContextoRegla.Add(new GLC_Regla("TIPO_DATO", "44Caracter"));
+            GLC.listaGramaticaLibreContextoRegla.Add(new GLC_Regla("TIPO_DATO", "4Decimal"));
 
 
             #region estructura Leer escribir
@@ -177,6 +174,7 @@ namespace IDE.Backend.SegundaFase
             Console.WriteLine(" paso 1 - Gramatica Libre Contexto");
             Console.WriteLine(GLC);
             richTextBox.Text = GLC.ToString();
+            tablaAnalisis = GLC.tablaAnalizar();
             setCodigoDot(ToDotGraph(GLC.listaGramaticaLibreContextoRegla));
             richTextBox.AppendText(this.codigoDot);
 
@@ -261,13 +259,12 @@ namespace IDE.Backend.SegundaFase
                     if (verPila == simboloActual)
                     {
                         Console.WriteLine("Simbolo actual: " + simboloActual + "  i: " + tokenActual);
-
                         Console.WriteLine("Hice pop de terminal: " + pila.Pop());
-
                         imprimirPila();
+                        
                         tokenActual++;
+                        
                         Console.WriteLine("Simbolo actual: " + simboloActual + "  i: " + tokenActual);
-
                         imprimirPila();
                         realizado = true;
                     }
@@ -277,60 +274,39 @@ namespace IDE.Backend.SegundaFase
 
                     // no terminal
 
+                IDictionary<string, GLC_Regla> d;
+				if(tablaAnalisis.TryGetValue(verPila, out d))
+				{
+					GLC_Regla rule;
+					if(d.TryGetValue(simboloActual, out rule))
+					{
+						Console.WriteLine("Hice pop no terminal de:" + pila.Pop());
+						imprimirPila();
+
+                            // mete el marcador final no terminal para más tarde
+                            //pila.Push(string.Concat("$", verPila));
 
 
-                    for (int k = 0; k < GLC.listaGramaticaLibreContextoRegla.Count - 1; k++)
-                    {
+                            // mete la derivacion en orden inverso
+                            var ic = rule.derecha.Count;
+						for (var i = ic - 1; 0 <= i;--i)
+						{
+							verPila = rule.derecha[i];
+							pila.Push(verPila);
+							imprimirPila();
+
+						}
 
 
+                            realizado = true;
+					}
 
-                        if (GLC.listaGramaticaLibreContextoRegla[k].izquierda == (verPila))
-                        {
+                        realizado = true;
+				}
 
-
-                            Console.WriteLine("Simbolo actual: " + simboloActual + "  i: " + tokenActual);
-                            string noTerminalAux;
-                            noTerminalAux = pila.Pop();
-                            Console.WriteLine("Hice pop de no terminal: " + noTerminalAux);
-
-                            imprimirPila();
-                            // mete el fin no terminal para mas tarde
-                            pila.Push(string.Concat("$ ", verPila));
-                            // imprimirPila();
-                            // mete la derivación de la regla a la pila en orden inverso
-
-                            var countRegla = GLC.listaGramaticaLibreContextoRegla[k].derecha.Count;
-                            LinkedList<string> produccionActual = new LinkedList<string>();
-
-                            string verPilaAux;
-                            verPilaAux = verPila;
-                            for (int j = 0; j < countRegla; j++)
-                            {
-                                verPilaAux = GLC.listaGramaticaLibreContextoRegla[k].derecha[j];
-                                produccionActual.AddLast(verPilaAux);
-                                Console.WriteLine("produccion aux: " + GLC.listaGramaticaLibreContextoRegla[k].derecha[j]);
-                            }
-
-
-                            for (int j = produccionActual.Count() - 1; 0 <= j; j--)
-                            {
-                                Console.WriteLine("Simbolo actual: " + simboloActual + "  i: " + tokenActual);
-                                verPila = produccionActual.ElementAt(j);
-                                pila.Push(verPila);
-                                imprimirPila();
-
-                            }
-
-
-
-                        }
-
-
-                        //while (pila.Contains((s = simboloActual)) && pila.Peek() != s) { Console.WriteLine("Hice pop de While: " + pila.Pop()); }
-                        // realizado = true;
-                    }
+                   
                 }
-                if (!simboloActual.Equals(pila.Peek())) {  Console.WriteLine("Hice pop de While if: " + pila.Pop()); }
+               // if (!simboloActual.Equals(pila.Peek())) {  Console.WriteLine("Hice pop de While if: " + pila.Pop()); }
 
             }
 
@@ -340,7 +316,59 @@ namespace IDE.Backend.SegundaFase
 
         }
 
+        public void provicional(string verPila)
+        {
+            for (int k = 0; k < GLC.listaGramaticaLibreContextoRegla.Count - 1; k++)
+            {
 
+
+
+                if (GLC.listaGramaticaLibreContextoRegla[k].izquierda == (verPila))
+                {
+
+
+                    Console.WriteLine("Simbolo actual: " + simboloActual + "  i: " + tokenActual);
+                    string noTerminalAux;
+                    noTerminalAux = pila.Pop();
+                    Console.WriteLine("Hice pop de no terminal: " + noTerminalAux);
+
+                    imprimirPila();
+                    // mete el fin no terminal para mas tarde
+                    pila.Push(string.Concat("$ ", verPila));
+                    // imprimirPila();
+                    // mete la derivación de la regla a la pila en orden inverso
+
+                    var countRegla = GLC.listaGramaticaLibreContextoRegla[k].derecha.Count;
+                    LinkedList<string> produccionActual = new LinkedList<string>();
+
+                    string verPilaAux;
+                    verPilaAux = verPila;
+                    for (int j = 0; j < countRegla; j++)
+                    {
+                        verPilaAux = GLC.listaGramaticaLibreContextoRegla[k].derecha[j];
+                        produccionActual.AddLast(verPilaAux);
+                        Console.WriteLine("produccion aux: " + GLC.listaGramaticaLibreContextoRegla[k].derecha[j]);
+                    }
+
+
+                    for (int j = produccionActual.Count() - 1; 0 <= j; j--)
+                    {
+                        Console.WriteLine("Simbolo actual: " + simboloActual + "  i: " + tokenActual);
+                        verPila = produccionActual.ElementAt(j);
+                        pila.Push(verPila);
+                        imprimirPila();
+
+                    }
+
+
+
+                }
+
+
+                //while (pila.Contains((s = simboloActual)) && pila.Peek() != s) { Console.WriteLine("Hice pop de While: " + pila.Pop()); }
+                // realizado = true;
+            }
+        }
         public string ToDotGraph(List<GLC_Regla> nodo)
         {
             StringBuilder b = new StringBuilder();
