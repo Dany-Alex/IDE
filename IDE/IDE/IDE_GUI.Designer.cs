@@ -341,20 +341,31 @@
             this.autocompleteMenu1.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F);
             this.autocompleteMenu1.ImageList = null;
             this.autocompleteMenu1.Items = new string[] {
-        "SI(){ }",
+        "SI",
+        "SINO",
+        "SINO_SI",
+        "MIENTRAS",
+        "HACER",
+        "DESDE",
+        "HASTA", 
+        "INCREMENTO",
+        "SI() { }",
         "SINO{ }",
-        "SINO_SI(){ }",
-        "MIENTRAS(){ }",
-        "HACER (){ } MIENTRAS()",
+        "SINO_SI() { }",
+        "MIENTRAS() { }",
+        "HACER () { } MIENTRAS()",
         "DESDE ; HASTA ; INCREMENTO { }",
         "entero",
         "cadena",
         "caracter",
         "boolean",
         "decimal",
-        "principal(){ }",
-        "leer(){ }",
-        "escribir(){ }"};
+        "principal",
+        "leer",
+        "escribir",
+        "principal() { }",
+        "leer() { }",
+        "escribir() { }"};
             this.autocompleteMenu1.MaximumSize = new System.Drawing.Size(250, 300);
             this.autocompleteMenu1.MinFragmentLength = 1;
             this.autocompleteMenu1.TargetControlWrapper = null;

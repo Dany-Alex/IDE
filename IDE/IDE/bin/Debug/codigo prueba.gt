@@ -1,12 +1,6 @@
 principal() {
 
-	
-	SI( _a > _b) {
- 		entero _T = 500;
-	}
-
-
-	SI( _a > _b){
+	SI(_a > _b){
 		 _a = 770;
 	}
 	SINO{
@@ -63,6 +57,7 @@ principal() {
 	}
 
 }
+
 
 
 
