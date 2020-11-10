@@ -27,6 +27,11 @@ namespace IDE.Backend.SegundaFase
         /// verifica si la produccion es nula osea epsion ( si la produccion es vacia)
         /// </summary>
         public bool esNull { get { return 0 == derecha.Count; } }
+
+        /// <summary>
+        /// hace un string donde guarda cada terminal y sus producciones
+        /// </summary>
+        /// <returns></returns>
         public override string ToString()
         {
             var sb = new StringBuilder();

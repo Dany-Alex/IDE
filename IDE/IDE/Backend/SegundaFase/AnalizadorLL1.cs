@@ -263,7 +263,8 @@ namespace IDE.Backend.SegundaFase
             Console.WriteLine(GLC);
             richTextBox.Text = GLC.ToString();
             tablaAnalisis = GLC.tablaAnalizar();
-            setCodigoDot(ToDotGraph(GLC.listaGramaticaLibreContextoRegla));
+           setCodigoDot(ToDotGraph(GLC.listaGramaticaLibreContextoRegla));
+            //setCodigoDot(getCodigoGraphviz(GLC.listaGramaticaLibreContextoRegla));
             richTextBox.AppendText(this.codigoDot);
 
             Console.WriteLine();
@@ -285,15 +286,8 @@ namespace IDE.Backend.SegundaFase
             this.pila = new Stack<string>();
         }
 
-        String imprimir = null;
         public void imprimirPila()
         {
-
-            /* while (analizar())
-             {
-                 imprimir=string.Format("{0}\t", simbolo);
-             }
-            */
             foreach (string number in pila)
             {
                 Console.WriteLine(number);
@@ -303,7 +297,7 @@ namespace IDE.Backend.SegundaFase
 
         int inicial = 62;
         string simboloActual;
-        string s = null;
+
 
         int tokenActual = 0, idActual = 0;
         /// <summary>
@@ -334,7 +328,7 @@ namespace IDE.Backend.SegundaFase
             }
 
 
-            while (pila.Count>0)
+            while (pila.Count > 0)
             {
                 simboloActual = listaTokenResultado[tokenActual].Simbolo;
                 idActual = listaTokenResultado[tokenActual].Id;
@@ -358,46 +352,58 @@ namespace IDE.Backend.SegundaFase
 
                         tokenActual++;
 
-                        Console.WriteLine("Simbolo actual: " + simboloActual + "  i: " + tokenActual);
-                        imprimirPila();
                         realizado = true;
                     }
 
                     // no terminal
 
-                    IDictionary<string, GLC_Regla> d;
-                    if (tablaAnalisis.TryGetValue(verPila, out d))
-                    {
-                        GLC_Regla rule;
-                        if (d.TryGetValue(idActual.ToString(), out rule))
-                        {
-                            Console.WriteLine("Hice pop no terminal de:" + pila.Pop());
-                            imprimirPila();
-                            // mete el marcador final no terminal para más tarde
-                            //pila.Push(string.Concat("$", verPila));
-
-                            // mete la derivacion en orden inverso
-                            var ic = rule.derecha.Count;
-                            for (var i = ic - 1; 0 <= i; --i)
-                            {
-                                verPila = rule.derecha[i];
-                                pila.Push(verPila);
-                                imprimirPila();
-                            }
-                            //   realizado = true;
-                        }
-                        realizado = true;
-                    }
-
-
+                    realizado = analizarNoTerminal(verPila, idActual.ToString());
+                                      
                 }
-                // if (!simboloActual.Equals(pila.Peek())) {  Console.WriteLine("Hice pop de While if: " + pila.Pop()); }
+                realizado = false;
 
             }
 
-
-
             return realizado;
+
+        }
+        public void revisar(string simboloActual) {
+            string s;
+
+            while (pila.Contains((s = simboloActual)) && pila.Peek() != s) { Console.WriteLine("Hice pop de While: " + pila.Pop()); }
+
+        }
+
+        public bool analizarNoTerminal(string verPila, string idAcutal) {
+            IDictionary<string, GLC_Regla> d;
+
+            if (tablaAnalisis.TryGetValue(verPila, out d))
+            {
+                GLC_Regla rule;
+                if (d.TryGetValue(idAcutal, out rule))
+                {
+                    Console.WriteLine("esta es la regla " + rule.ToString());
+                    Console.WriteLine("Hice pop no terminal de:" + pila.Pop());
+                    imprimirPila();
+                    // mete el marcador final no terminal para más tarde
+                    //pila.Push(string.Concat("$", verPila));
+
+                    // mete la derivacion en orden inverso
+                    var ic = rule.derecha.Count;
+                    for (var i = ic - 1; 0 <= i; --i)
+                    {
+                        verPila = rule.derecha[i];
+                        pila.Push(verPila);
+                    }
+                    imprimirPila();
+                    return true;
+                }
+               
+                return true;
+            }
+            //if (!simboloActual.Equals(pila.Peek())) { Console.WriteLine("Hice pop de While if: " + pila.Pop()); }
+
+            return true;
 
         }
 
@@ -469,6 +475,7 @@ namespace IDE.Backend.SegundaFase
             for (int k = 0; k < GLC.listaGramaticaLibreContextoRegla.Count - 1; k++)
             {
                 b.Append(ToDot(GLC.listaGramaticaLibreContextoRegla[k]));
+
             }
 
 
@@ -476,7 +483,7 @@ namespace IDE.Backend.SegundaFase
             return b.ToString();
         }
 
-        int correlativo;
+    
         string raiz = "E";
         /// <summary>
         /// este metodo se encarga de crear el interior del codigo de graphviz
@@ -494,52 +501,67 @@ namespace IDE.Backend.SegundaFase
                 {
 
                     raiz = nodo.derecha[j];
-                    b.AppendFormat(" \"{0}\"->\"{1}\"{2}", nodo.izquierda.ToString(), raiz, Environment.NewLine);
+                    b.AppendFormat(" \"{0}\"->\"{1}{2}\"{3}", nodo.izquierda.ToString(), raiz, correlativo, Environment.NewLine);
 
                 }
-
+                correlativo++;
             }
 
             return b.ToString();
         }
 
-
-        static void _AppendTreeTo(StringBuilder result, NodoArbol node)
+        private String getCodigoGraphviz(List<GLC_Regla> nodo)
         {
-            List<NodoArbol> firstStack = new List<NodoArbol>();
-            firstStack.Add(node);
-
-            List<List<NodoArbol>> childListStack = new List<List<NodoArbol>>();
-            childListStack.Add(firstStack);
-
-            while (childListStack.Count > 0)
+            StringBuilder b = new StringBuilder();
+            b.Append("digraph grafica{\n" +
+                   "rankdir=TB;\n" +
+                   "node [shape = record, style=filled, fillcolor=seashell2];\n");
+            for (int k = 0; k < GLC.listaGramaticaLibreContextoRegla.Count - 1; k++)
             {
-                List<NodoArbol> childStack = childListStack[childListStack.Count - 1];
-
-                if (childStack.Count == 0)
-                {
-                    childListStack.RemoveAt(childListStack.Count - 1);
-                }
-                else
-                {
-                    node = childStack[0];
-                    childStack.RemoveAt(0);
-
-                    string indent = "";
-                    for (int i = 0; i < childListStack.Count - 1; i++)
-                    {
-                        indent += (childListStack[i].Count > 0) ? "|  " : "   ";
-                    }
-                    var s = node.valor;
-                    result.Append(string.Concat(indent, "└> ", s, " ", "").TrimEnd());
-                    result.AppendLine();// string.Concat(" at line ", node.Line, ", column ", node.Column, ", position ", node.Position, ", length of ", node.Length));
-                    if (node.hijo.Count > 0)
-                    {
-                        childListStack.Add(new List<NodoArbol>(node.hijo));
-                    }
-                }
+                b.Append(getCodigoInterno(GLC.listaGramaticaLibreContextoRegla[k]));
             }
+            b.Append("}");
+            return b.ToString();
         }
+
+        int correlativo;
+        private String getCodigoInterno(GLC_Regla nodo)
+        {
+            StringBuilder etiqueta = new StringBuilder();
+          //  String etiqueta;
+            if (nodo.izquierda == null && nodo.derecha == null)
+            {
+                etiqueta.Append("nodo" + correlativo + " [ label =\"" + nodo.izquierda + "\"];\n");
+                correlativo++;
+            }
+            else
+            {
+                //etiqueta.Append("nodo" + correlativo + " [ label =\"<C0>|" + "null" + "|<C1>\"];\n");
+                //correlativo++;
+            }
+            if (nodo.izquierda != null)
+            {
+                etiqueta.Append(getCodigoInterno(nodo) +
+                   "nodo" + correlativo + ":C0->nodo" + nodo.izquierda + "\n");
+                correlativo++;
+            }
+
+            if (nodo.izquierda != null)
+            {
+                for (int j = 0; j < nodo.derecha.Count; j++)
+                {
+
+                    raiz = nodo.derecha[j];
+
+                    etiqueta.Append(getCodigoInterno(nodo) +
+                "nodo" + correlativo + ":C1->nodo" + raiz + "\n");
+                    correlativo++;
+            }
+             
+            }
+            return etiqueta.ToString();
+        }
+
 
         public void analisis(string verPila)
         {

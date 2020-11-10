@@ -62,10 +62,10 @@ namespace IDE
 
             AnalizadorLL1.iniciarGramatica(richTextBox2);
             setCodigoDot( AnalizadorLL1.getCodigoDot());
- Console.WriteLine( "Analizador ll1");
+            Console.WriteLine( "Analizador ll1");
+
+            // while (AnalizadorLL1.analizar()) { Console.WriteLine("its ok"); }
             AnalizadorLL1.analizar();
-                      
-           
         }
 
         string codigoDot = null;
