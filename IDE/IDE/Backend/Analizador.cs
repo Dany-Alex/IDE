@@ -65,7 +65,7 @@ namespace IDE
             Console.WriteLine( "Analizador ll1");
 
             // while (AnalizadorLL1.analizar()) { Console.WriteLine("its ok"); }
-            AnalizadorLL1.analizar();
+            //AnalizadorLL1.analizar();
         }
 
         string codigoDot = null;

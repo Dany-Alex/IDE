@@ -8,12 +8,11 @@ namespace IDE.Backend.SegundaFase
 {
     class Arbol
     {
-        private NodoArbol raiz;
+        private NodoArbol raiz=new NodoArbol();
 
         public List<NodoArbol> nodos { get; } = new List<NodoArbol>();
         public Arbol()
         {
-            this.raiz = null;
         }
         public void insertar(String val)
         {

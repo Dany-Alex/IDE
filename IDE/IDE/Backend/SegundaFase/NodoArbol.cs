@@ -84,11 +84,10 @@ namespace IDE.Backend.SegundaFase
         public StringBuilder getCodigoGraphviz()
         {
             StringBuilder b = new StringBuilder();
-            b.AppendFormat("digraph grafica{\n" +
-                   "rankdir=TB;\n" +
-                   "node [shape = record, style=filled, fillcolor=seashell2];\n" +
-                   getCodigoInterno() +
-                    "}\n");
+            b.AppendFormat("digraph grafica{" +Environment.NewLine+
+                   
+                   getCodigoInterno().ToString() +
+                    "}");
             return b;
         }
  
@@ -97,14 +96,16 @@ namespace IDE.Backend.SegundaFase
             StringBuilder b = new StringBuilder();
             if (raiz != null)
             {
+                if (hijo.Count > 0) {
+                    for (int j = 0; j < hijo.Count; j++)
+                    {
 
-                for (int j = 0; j < hijo.Count; j++)
-                {
+                        var nodo = hijo[j];
+                        b.AppendFormat(" \"{0}\"->\"{1}{2}\"{3}", raiz, nodo, id, Environment.NewLine);
 
-                    var nodo = hijo[j];
-                    b.AppendFormat(" \"{0}\"->\"{1}{2}\"{3}", raiz, nodo, id, Environment.NewLine);
-
+                    }
                 }
+        
 
                
             }

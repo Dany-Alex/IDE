@@ -1,5 +1,6 @@
 ﻿using Microsoft.SqlServer.Server;
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -268,14 +269,38 @@ namespace IDE.Backend.SegundaFase
 
             richTextBox.AppendText(GLC.ToString());
             tablaAnalisis = GLC.tablaAnalizar();
-            setCodigoDot(ToDotGraph(GLC.listaGramaticaLibreContextoRegla));
-            //setCodigoDot(getCodigoGraphviz(GLC.listaGramaticaLibreContextoRegla));
-            richTextBox.AppendText("*************************** CODIGO GRAPHVIZ **************************"+Environment.NewLine);
-            richTextBox.AppendText(this.codigoDot);
+            analizar();
 
-            Console.WriteLine();
+            IDictionary<string, int> counts = new Dictionary<string, int>();
+
+            // Repite cada palabra de la lista
+            foreach (string value in arbolcodigo)
+            {
+                // Agrega la palabra como clave si aún no está en el diccionario, y
+                // inicializa el recuento de esa palabra a 1, de lo contrario solo incrementa
+                // el recuento de una palabra existente
+                if (!counts.ContainsKey(value))
+                    counts.Add(value, 1);
+                else
+                    counts[value]++;
+            }
+            // Recorre los resultados del diccionario para agregarlos al codigo interno de graphviz
+            foreach (string value in counts.Keys)
+            {
+                codigoArbol.AppendFormat("{0}{1}", value, Environment.NewLine);
+
+            }
+
+            richTextBox.AppendText("*************************** CODIGO GRAPHVIZ **************************"+Environment.NewLine);
+            richTextBox.AppendText(this.codigoArbol.ToString());
+            string arbol;
+            arbol = this.codigoArbol.ToString();
+            Console.WriteLine(arbol);
+            setCodigoDot(ToDotGraph(arbol));
+            
 
         }
+
 
         string codigoDot = null;
         public void setCodigoDot(string codigoDot) { this.codigoDot = codigoDot; }
@@ -312,7 +337,7 @@ namespace IDE.Backend.SegundaFase
         public bool analizar()
         {
             bool realizado = false;
-
+ 
 
             if (listaTokenResultado.Count() > 0)
             {
@@ -393,6 +418,8 @@ namespace IDE.Backend.SegundaFase
             return realizado;
 
         }
+        public StringBuilder codigoArbol { get; } = new StringBuilder();
+  List<string> arbolcodigo { get; }  = new List<string>();
 
         /// <summary>
         /// este metodo verifica si el no terminal esta en la tabla de analisis, despues guarda la regla para depues hacer el reemplazo en la pila
@@ -402,10 +429,10 @@ namespace IDE.Backend.SegundaFase
         /// <returns></returns>
         public bool analizarNoTerminal(string verPila, string idAcutal)
         {
-            List<string> hijos = new List<string>();
-            string raiz = null;
-            IDictionary<string, GLC_Regla> d;
+          
 
+            IDictionary<string, GLC_Regla> d;
+            string pop;
             if (tablaAnalisis.TryGetValue(verPila, out d))
             {
 
@@ -414,7 +441,7 @@ namespace IDE.Backend.SegundaFase
                     if (!(rule == null))
                     {
                         Console.WriteLine("esta es la regla " + rule.ToString());
-                        raiz = pila.Pop();
+                        pop = pila.Pop();
                         Console.WriteLine("Hice pop no terminal de:" + raiz);
                         imprimirPila();
                         // mete el marcador final no terminal para más tarde
@@ -426,8 +453,13 @@ namespace IDE.Backend.SegundaFase
                         {
                             verPila = rule.derecha[i];
                             pila.Push(verPila);
-                            hijos.Add(verPila);
+
+                            var appned = String.Format(" \"{0}\"->\"{1}\"", pop, verPila);
+                            if (!arbolcodigo.Contains(appned)) {
+                                arbolcodigo.Add(appned);
+                            }
                         }
+                        correlativo++;
                         imprimirPila();
                     }
 
@@ -435,9 +467,6 @@ namespace IDE.Backend.SegundaFase
                 }
 
             }
-            arbol.nodos.Add(new NodoArbol(raiz, hijos));
-            //if (!simboloActual.Equals(pila.Peek())) { Console.WriteLine("Hice pop de While if: " + pila.Pop()); }
-
             return false;
 
         }
@@ -502,15 +531,16 @@ namespace IDE.Backend.SegundaFase
         /// </summary>
         /// <param name="nodo">recibe una lista de reglas gramaticales libres de contexto</param>
         /// <returns></returns>
-        public string ToDotGraph(List<GLC_Regla> nodo)
+        public string ToDotGraph(string nodo)
         {
             StringBuilder b = new StringBuilder();
             b.Append("digraph G {" + Environment.NewLine);
-            for (int k = 0; k < GLC.listaGramaticaLibreContextoRegla.Count - 1; k++)
-            {
-                b.Append(ToDot(GLC.listaGramaticaLibreContextoRegla[k]));
+          //  for (int k = 0; k < GLC.listaGramaticaLibreContextoRegla.Count - 1; k++)
+            //{
+                // b.Append(ToDot(GLC.listaGramaticaLibreContextoRegla[k]));
                 //b.Append(arbol.graficar());
-            }
+                b.Append(nodo);
+            //}
             b.Append("}");
             return b.ToString();
         }
