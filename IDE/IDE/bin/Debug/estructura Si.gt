@@ -1,22 +1,52 @@
 principal() {
 
-	SI(!falso){
- 		_a = 770;
+	SI(!falso)
+	{
+		leer( _s );
+		escribir( _h);
 	}
-	SINO_SI( _c > _b ){
- 		_b = 50;
+	SINO_SI( _c > _b )
+	{
 
-		 _v = -51.2;
+ 		HACER( _i > _j) 
+		{ 
+
+				DESDE _i = 0  ; HASTA _i < 10 ; INCREMENTO 1 
+				{ 
+
+					leer( _s );
+					escribir( _h);
+
+				}
+
+		} MIENTRAS( _i == _l )
+
+
 	}
-	SINO_SI(verdadero){
-	
+	SINO_SI( _i != _l )
+	{
+	 	entero _a = 770;
 	}
 	SINO
 	{
-	
+		MIENTRAS(!verdadero) { 
+			leer( _s );
+			escribir( _h);
+		}
+
 	}
 
+	
+
+
+
+
 }
+
+
+
+
+
 
 
 

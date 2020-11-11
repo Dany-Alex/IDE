@@ -370,6 +370,7 @@ namespace IDE.Backend.SegundaFase
                 var d = new Dictionary<string, GLC_Regla>();
                 foreach (var f in primeros[nt]) {  
                     if (null != f.simbolo) { 
+
                         d.Add(f.simbolo, f.regla);
                     }
                     else

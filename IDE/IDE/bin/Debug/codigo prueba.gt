@@ -1,31 +1,23 @@
 principal() {
 
-	SI(_a > _b){
-		 _a = 770;
-	}
-	SINO{
- 		_b = 50;
-	}
-
-
 	SI(!falso){
- 		_a = 770;
+ 		entero _a = 770;
 	}
-	SINO_SI( _c > _b && verdadero){
- 		_b = 50;
+	SINO_SI( _c > _b){
+ 		entero  _b = 50;
 
-		 _v = -51.2;
+		entero _v = -51.2;
 	}
 	SINO_SI(verdadero){
-		//sentencias
+		
 	}
 	SINO
 	{
-		//sentencias
+		
 	}
 
-          imprimir ( _algo + _algo1 ++);
-          leer( _variable);
+          imprimir ();
+          leer();
           entero _a = 0;
           cadena _saludo = "hola";
 
@@ -49,14 +41,16 @@ principal() {
 	}
 	MIENTRAS( _datos == 2)
 
-	DESDE( _i = 0 HASTA _i < 20 INCREMENTO++){
+	DESDE( _i = 0; HASTA _i < 20; INCREMENTO 1){
  		_c= 5;
  		_a = 159.01;
-		imprimir( “datos” ) ;
+		imprimir() ;
 		entero _var = 15;
 	}
 
 }
+
+
 
 
 
