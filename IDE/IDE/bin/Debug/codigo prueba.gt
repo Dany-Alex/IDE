@@ -1,57 +1,47 @@
 principal() {
 
-	SI(!falso){
- 		entero _a = 770;
+	SI(!falso)
+	{
+		leer( _s );
+		escribir( _h);
 	}
-	SINO_SI( _c > _b){
- 		entero  _b = 50;
+	SINO_SI( _c > 0 )
+	{
 
-		entero _v = -51.2;
+ 		HACER( _i > _j) 
+		{ 
+
+				DESDE _i = 0  ; HASTA _i < 10 ; INCREMENTO 1 
+				{ 
+
+					leer( _s );
+					escribir( _h);
+
+				}
+
+		} MIENTRAS( _i == _l )
+
+
 	}
-	SINO_SI(verdadero){
-		
+	SINO_SI( _i != _l )
+	{
+	 	entero _a = 770;
 	}
 	SINO
 	{
-		
+		MIENTRAS(!verdadero) { 
+			leer( _s );
+			escribir( _h);
+		}
+
 	}
 
-          imprimir ();
-          leer();
-          entero _a = 0;
-          cadena _saludo = "hola";
+	
 
-          	MIENTRAS( _a < 5 ) {
-                	imprimir ( _a + “resultado”);
-                	_a++;
-         	}
 
-	MIENTRAS( _id > 10){
- 		_c = 5;
-		 _a = 159.01;
-		imprimir(“datos”);
-		entero _vari = 15;
-	}	
 
-	HACER( _id > 10) {
-		 _c= 5;
- 		_a = 159.01;
-		imprimir(“datos”) ;
-		entero _var = 15;
-	}
-	MIENTRAS( _datos == 2)
-
-	DESDE( _i = 0; HASTA _i < 20; INCREMENTO 1){
- 		_c= 5;
- 		_a = 159.01;
-		imprimir() ;
-		entero _var = 15;
-	}
 
 }
-
-
-
 
 
 

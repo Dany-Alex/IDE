@@ -11,26 +11,22 @@ namespace IDE.Backend.SegundaFase
     class NodoArbol
     {
 
-        public string valor { get; set; }
+        public string raiz { get; set; }
 
-        NodoArbol padre,izquierdo, derecho;
-        public IList<NodoArbol> hijo { get; } = new List<NodoArbol>();
+        public List<string> hijo { get; } = new List<string>();
 
         private static int correlativo = 1;
         private int id;
 
-        public NodoArbol(NodoArbol padre ,string valor)
+        public NodoArbol()
         {
-            this.padre = padre;
-            this.valor = valor;
-            this.izquierdo = null;
-            this.derecho = null;
-            this.id = correlativo++;
+
         }
 
-        void insertar(string valor)
+        public NodoArbol(string raiz, List<string> hijo)
         {
-           
+            this.raiz = raiz;
+            if (null != this.hijo) this.hijo = new List<string>(hijo);
         }
 
 
@@ -39,7 +35,7 @@ namespace IDE.Backend.SegundaFase
         public void graficar(SaveFileDialog saveFileDialog1)
         {
             ManejadorArchivos manejador = new ManejadorArchivos();
-            manejador.guardarGraphvizComo(saveFileDialog1, getCodigoGraphviz());
+           // manejador.guardarGraphvizComo(saveFileDialog1, getCodigoGraphviz());
             try
             {
 
@@ -85,37 +81,36 @@ namespace IDE.Backend.SegundaFase
 
         }
 
-        private String getCodigoGraphviz()
+        public StringBuilder getCodigoGraphviz()
         {
-            return "digraph grafica{\n" +
+            StringBuilder b = new StringBuilder();
+            b.AppendFormat("digraph grafica{\n" +
                    "rankdir=TB;\n" +
                    "node [shape = record, style=filled, fillcolor=seashell2];\n" +
-                    getCodigoInterno() +
-                    "}\n";
+                   getCodigoInterno() +
+                    "}\n");
+            return b;
+        }
+ 
+        private StringBuilder getCodigoInterno()
+        {
+            StringBuilder b = new StringBuilder();
+            if (raiz != null)
+            {
+
+                for (int j = 0; j < hijo.Count; j++)
+                {
+
+                    var nodo = hijo[j];
+                    b.AppendFormat(" \"{0}\"->\"{1}{2}\"{3}", raiz, nodo, id, Environment.NewLine);
+
+                }
+
+               
+            }
+            return b;
+
         }
 
-        private String getCodigoInterno()
-        {
-            String etiqueta;
-            if (izquierdo == null && derecho == null)
-            {
-                etiqueta = "nodo" + id + " [ label =\"" + valor + "\"];\n";
-            }
-            else
-            {
-                etiqueta = "nodo" + id + " [ label =\"<C0>|" + valor + "|<C1>\"];\n";
-            }
-            if (izquierdo != null)
-            {
-                etiqueta = etiqueta + izquierdo.getCodigoInterno() +
-                   "nodo" + id + ":C0->nodo" + izquierdo.id + "\n";
-            }
-            if (derecho != null)
-            {
-                etiqueta = etiqueta + derecho.getCodigoInterno() +
-                   "nodo" + id + ":C1->nodo" + derecho.id + "\n";
-            }
-            return etiqueta;
-        }
     }
 }

@@ -10,6 +10,7 @@ namespace IDE.Backend.SegundaFase
     {
         private NodoArbol raiz;
 
+        public List<NodoArbol> nodos { get; } = new List<NodoArbol>();
         public Arbol()
         {
             this.raiz = null;
@@ -21,9 +22,9 @@ namespace IDE.Backend.SegundaFase
             //else
                // raiz.insertar(val);
         }
-        public void graficar(String path)
+        public StringBuilder graficar()
         {
-         //   raiz.graficar(path);
+            return raiz.getCodigoGraphviz();
         }
         public void inorden()
         {

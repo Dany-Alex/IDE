@@ -38,16 +38,14 @@ namespace IDE.Backend.SegundaFase
     }
     class AnalizadorLL1
     {
-        GramaticaLibreContexto GramaticaLibreContexto;
+       
         string simboloInicial1;
         GLC GLC = new GLC();
-
-
+        Arbol arbol = new Arbol();
 
         private List<Token> listaTokenResultado = new List<Token>();
         IDictionary<string, IDictionary<string, GLC_Regla>> tablaAnalisis;
 
-        private List<string> listaNoTerminales = new List<string>();
         Stack<string> pila;
 
         public analizarTipoNodo tipoNodo
@@ -266,10 +264,13 @@ namespace IDE.Backend.SegundaFase
 
             Console.WriteLine(" paso 1 - Gramatica Libre Contexto");
             Console.WriteLine(GLC);
-            richTextBox.Text = GLC.ToString();
+            richTextBox.Text = ("*************************** GRAMATICA **************************"+Environment.NewLine);
+
+            richTextBox.AppendText(GLC.ToString());
             tablaAnalisis = GLC.tablaAnalizar();
             setCodigoDot(ToDotGraph(GLC.listaGramaticaLibreContextoRegla));
             //setCodigoDot(getCodigoGraphviz(GLC.listaGramaticaLibreContextoRegla));
+            richTextBox.AppendText("*************************** CODIGO GRAPHVIZ **************************"+Environment.NewLine);
             richTextBox.AppendText(this.codigoDot);
 
             Console.WriteLine();
@@ -284,7 +285,7 @@ namespace IDE.Backend.SegundaFase
                             List<Token> listaTokenResultado,
                             List<Token> listaTokenErrores)
         {
-            GramaticaLibreContexto = new GramaticaLibreContexto();
+         
 
             this.simboloInicial1 = simboloInicial1;
             this.listaTokenResultado = listaTokenResultado;
@@ -303,8 +304,6 @@ namespace IDE.Backend.SegundaFase
 
         int inicial = 62;
         string simboloActual;
-
-
         int tokenActual = 0, idActual = 0;
         /// <summary>
         /// se encarga del analisis sintactico por medio de los tokes que fueron encontrados por el analizador lexico, asi como tambien en este metodo se trabaja con el autamata de pila
@@ -341,7 +340,7 @@ namespace IDE.Backend.SegundaFase
                     Console.WriteLine("Pila Vacia");
                     StringBuilder valido = new StringBuilder();
                     valido.Append(string.Format("{0}{1}{0}", "----------------------------", "***************"));
-                    valido.Append(string.Format("{0}{1}{0}", "\t", "El analisis sintactico se completo correctamente"));
+                    valido.Append(string.Format("{0}{1}{0}", "\t\t", "El analisis sintactico se completo correctamente"));
                     valido.Append(string.Format("{0}{1}{0}", "----------------------------", "***************"));
                     Console.WriteLine(valido.ToString());
                     MessageBox.Show(valido.ToString());
@@ -371,6 +370,7 @@ namespace IDE.Backend.SegundaFase
                         {
                             Console.WriteLine("Simbolo actual: " + simboloActual + "  i: " + tokenActual);
                             Console.WriteLine("Hice pop de terminal: " + pila.Pop());
+                            
                             imprimirPila();
 
                             tokenActual++;
@@ -393,13 +393,6 @@ namespace IDE.Backend.SegundaFase
             return realizado;
 
         }
-        public void revisar(string simboloActual)
-        {
-            string s;
-
-            while (pila.Contains((s = simboloActual)) && pila.Peek() != s) { Console.WriteLine("Hice pop de While: " + pila.Pop()); }
-
-        }
 
         /// <summary>
         /// este metodo verifica si el no terminal esta en la tabla de analisis, despues guarda la regla para depues hacer el reemplazo en la pila
@@ -409,6 +402,8 @@ namespace IDE.Backend.SegundaFase
         /// <returns></returns>
         public bool analizarNoTerminal(string verPila, string idAcutal)
         {
+            List<string> hijos = new List<string>();
+            string raiz = null;
             IDictionary<string, GLC_Regla> d;
 
             if (tablaAnalisis.TryGetValue(verPila, out d))
@@ -419,7 +414,8 @@ namespace IDE.Backend.SegundaFase
                     if (!(rule == null))
                     {
                         Console.WriteLine("esta es la regla " + rule.ToString());
-                        Console.WriteLine("Hice pop no terminal de:" + pila.Pop());
+                        raiz = pila.Pop();
+                        Console.WriteLine("Hice pop no terminal de:" + raiz);
                         imprimirPila();
                         // mete el marcador final no terminal para más tarde
                         //pila.Push(string.Concat("$", verPila));
@@ -430,6 +426,7 @@ namespace IDE.Backend.SegundaFase
                         {
                             verPila = rule.derecha[i];
                             pila.Push(verPila);
+                            hijos.Add(verPila);
                         }
                         imprimirPila();
                     }
@@ -438,6 +435,7 @@ namespace IDE.Backend.SegundaFase
                 }
 
             }
+            arbol.nodos.Add(new NodoArbol(raiz, hijos));
             //if (!simboloActual.Equals(pila.Peek())) { Console.WriteLine("Hice pop de While if: " + pila.Pop()); }
 
             return false;
@@ -508,19 +506,17 @@ namespace IDE.Backend.SegundaFase
         {
             StringBuilder b = new StringBuilder();
             b.Append("digraph G {" + Environment.NewLine);
-
             for (int k = 0; k < GLC.listaGramaticaLibreContextoRegla.Count - 1; k++)
             {
                 b.Append(ToDot(GLC.listaGramaticaLibreContextoRegla[k]));
-
+                //b.Append(arbol.graficar());
             }
-
-
             b.Append("}");
             return b.ToString();
         }
 
 
+        int correlativo;
         string raiz = "E";
         /// <summary>
         /// este metodo se encarga de crear el interior del codigo de graphviz
@@ -547,144 +543,8 @@ namespace IDE.Backend.SegundaFase
             return b.ToString();
         }
 
-        int correlativo;
 
-        public void analisis(string verPila)
-        {
-            // no terminal
-
-            List<GLC_Regla> listaProduccionActual = new List<GLC_Regla>();
-            foreach (var produccion in GLC.listaGramaticaLibreContextoRegla)
-            {
-                if (verPila == produccion.izquierda)
-                {
-                    listaProduccionActual.Add(produccion);
-                }
-
-            }
-
-            Console.WriteLine("Lista de producciones repetidas");
-            foreach (var produccion in listaProduccionActual)
-            {
-                var sb = new StringBuilder();
-                sb.Append(produccion.izquierda ?? "");
-                sb.Append(" ->");
-                var ic = produccion.derecha.Count;
-                for (var i = 0; i < ic; ++i)
-                {
-                    sb.Append(" ");
-                    sb.Append(produccion.derecha[i]);
-                }
-                Console.WriteLine(sb);
-            }
-            int iteradorProduccionActualLista = 0;
-            LinkedList<string> produccionActual = new LinkedList<string>();
-
-            while (listaProduccionActual.Count < 0)
-            {
-                string verPilaAux;
-                verPilaAux = verPila;
-                for (int j = 0; j < GLC.listaGramaticaLibreContextoRegla[iteradorProduccionActualLista].derecha.Count; j++)
-                {
-                    verPilaAux = GLC.listaGramaticaLibreContextoRegla[iteradorProduccionActualLista].derecha[j];
-                    produccionActual.AddLast(verPilaAux);
-                    Console.WriteLine("produccion aux: " + GLC.listaGramaticaLibreContextoRegla[iteradorProduccionActualLista].derecha[j]);
-                }
-                if (produccionActual.Last() == simboloActual || simboloActual == "E")
-                {
-                    for (int j = produccionActual.Count() - 1; 0 <= j; j--)
-                    {
-                        Console.WriteLine("Simbolo actual: " + simboloActual + "  i: " + tokenActual);
-                        verPila = produccionActual.ElementAt(j);
-                        pila.Push(verPila);
-                        imprimirPila();
-
-                    }
-                }
-                else
-                {
-                    iteradorProduccionActualLista++;
-                }
-
-            }
-            //-----------------------------------------------------------------+
-
-            Console.WriteLine("Lista de producciones repetidas");
-            foreach (var produccion in listaProduccionActual)
-            {
-                var sb = new StringBuilder();
-                sb.Append(produccion.izquierda ?? "");
-                sb.Append(" ->");
-                var ic = produccion.derecha.Count;
-                for (var i = 0; i < ic; ++i)
-                {
-                    sb.Append(" ");
-                    sb.Append(produccion.derecha[i]);
-                }
-                Console.WriteLine(sb);
-            }
-
-            for (int k = 0; k < GLC.listaGramaticaLibreContextoRegla.Count - 1; k++)
-            {
-
-                if (GLC.listaGramaticaLibreContextoRegla[k].izquierda == (verPila))
-                {
-
-
-                    Console.WriteLine("Simbolo actual: " + simboloActual + "  i: " + tokenActual);
-                    string noTerminalAux;
-                    noTerminalAux = pila.Pop();
-                    Console.WriteLine("Hice pop de no terminal: " + noTerminalAux);
-
-                    imprimirPila();
-                    // mete el fin no terminal para mas tarde
-                    // pila.Push(string.Concat("$", verPila));
-                    // imprimirPila();
-                    // mete la derivación de la regla a la pila en orden inverso
-
-                    var countRegla = GLC.listaGramaticaLibreContextoRegla[k].derecha.Count;
-
-                    string verPilaAux;
-                    verPilaAux = verPila;
-                    for (int j = 0; j < countRegla; j++)
-                    {
-                        verPilaAux = GLC.listaGramaticaLibreContextoRegla[k].derecha[j];
-                        produccionActual.AddLast(verPilaAux);
-                        Console.WriteLine("produccion aux: " + GLC.listaGramaticaLibreContextoRegla[k].derecha[j]);
-                    }
-
-                    if (produccionActual.Contains(simboloActual) || simboloActual == "E")
-                    {
-
-                        for (int j = produccionActual.Count() - 1; 0 <= j; j--)
-                        {
-                            Console.WriteLine("Simbolo actual: " + simboloActual + "  i: " + tokenActual);
-                            verPila = produccionActual.ElementAt(j);
-                            pila.Push(verPila);
-                            imprimirPila();
-
-                        }
-
-                    }
-
-
-                }
-
-                // realizado = true;
-            }
-
-        }
-        public void imprimirListaTokens()
-        {
-            for (int i = 0; i < listaTokenResultado.Count(); i++)
-            {
-
-                int idActual = listaTokenResultado[i].Id;
-                string simboloActual1 = listaTokenResultado[i].Simbolo;
-
-                Console.WriteLine("i: {0}\tSimbolo actual: {1}", i, simboloActual1);
-            }
-        }
+ 
 
     }
 }
